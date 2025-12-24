@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as r,o as t}from"./app-Dai4FSP1.js";const o={};function c(n,s){return t(),r("div",null," List ")}const i=e(o,[["render",c]]);export{i as default};
