@@ -1,0 +1,10 @@
+@custom-variant dark (&:where(.dark, .dark *));
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import 'primeicons/primeicons.css';
+
+
+.p-tablist-tab-list,
+.p-tabpanels {
+   background: transparent !important;
+}
