@@ -1,0 +1,1 @@
+import{f as t}from"./index-BGY1eZ2G.js";const o="change",s={index(e){return t({url:`${o}`,onLoad:e})},update(e,r,u){return t({url:`${o}/${e}`,method:"put",formData:r,onLoad:u})},store(e,r){return t({url:`${o}`,method:"post",formData:e,onLoad:r})},destroy(e,r){return t({url:`${o}/${e}`,method:"delete",onLoad:r})},show(e,r){return t({url:`${o}/${e}`,onLoad:r})}};export{s as C};

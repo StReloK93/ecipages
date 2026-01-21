@@ -1,57 +1,56 @@
 {
-  "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js": {
-    "file": "assets/BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-    "name": "BaseForm.vue_vue_type_script_setup_true_lang",
+  "_ChangeRepo-Cv2ole86.js": {
+    "file": "assets/ChangeRepo-Cv2ole86.js",
+    "name": "ChangeRepo",
     "imports": [
-      "resources/ts/app.ts"
+      "_index-BGY1eZ2G.js"
     ]
   },
-  "_OrganizationRepo-SAoGxYYw.js": {
-    "file": "assets/OrganizationRepo-SAoGxYYw.js",
+  "_OrganizationRepo-Co_rM9b_.js": {
+    "file": "assets/OrganizationRepo-Co_rM9b_.js",
     "name": "OrganizationRepo",
     "imports": [
-      "_useFetch-D45EbHv3.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js"
+    ]
+  },
+  "_PrimeInputs-BpjKOdBv.js": {
+    "file": "assets/PrimeInputs-BpjKOdBv.js",
+    "name": "PrimeInputs",
+    "imports": [
+      "_index-BGY1eZ2G.js",
       "resources/ts/app.ts"
     ]
   },
-  "_SmenaRepo-COpIk1m2.js": {
-    "file": "assets/SmenaRepo-COpIk1m2.js",
-    "name": "SmenaRepo",
-    "imports": [
-      "_useFetch-D45EbHv3.js"
-    ]
-  },
-  "_TabButton.vue_vue_type_script_setup_true_lang-BdTixBLv.js": {
-    "file": "assets/TabButton.vue_vue_type_script_setup_true_lang-BdTixBLv.js",
-    "name": "TabButton.vue_vue_type_script_setup_true_lang",
-    "imports": [
-      "resources/ts/app.ts"
-    ]
-  },
-  "_TransportListRepo-HjEdcF-H.js": {
-    "file": "assets/TransportListRepo-HjEdcF-H.js",
+  "_TransportListRepo-CIY4awZL.js": {
+    "file": "assets/TransportListRepo-CIY4awZL.js",
     "name": "TransportListRepo",
     "imports": [
-      "_useFetch-D45EbHv3.js"
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js"
     ]
   },
-  "_TransportTypeRepo-Djz1Rucm.js": {
-    "file": "assets/TransportTypeRepo-Djz1Rucm.js",
-    "name": "TransportTypeRepo",
+  "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js": {
+    "file": "assets/UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+    "name": "UseCrudPage.vue_vue_type_script_setup_true_lang",
     "imports": [
-      "_useFetch-D45EbHv3.js"
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js",
+      "_PrimeInputs-BpjKOdBv.js",
+      "_index-BGY1eZ2G.js"
     ]
   },
-  "_index-CBr-MpG8.js": {
-    "file": "assets/index-CBr-MpG8.js",
+  "_index-B8-WGO63.js": {
+    "file": "assets/index-B8-WGO63.js",
     "name": "index",
     "imports": [
-      "resources/ts/app.ts"
+      "resources/ts/app.ts",
+      "_index-BGY1eZ2G.js"
     ]
   },
-  "_useFetch-D45EbHv3.js": {
-    "file": "assets/useFetch-D45EbHv3.js",
-    "name": "useFetch",
+  "_index-BGY1eZ2G.js": {
+    "file": "assets/index-BGY1eZ2G.js",
+    "name": "index",
     "imports": [
       "resources/ts/app.ts"
     ]
@@ -77,12 +76,12 @@
     "src": "node_modules/primeicons/fonts/primeicons.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-ZBwvRZn7.css",
+    "file": "assets/app-BigBwIdL.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/ts/app.ts": {
-    "file": "assets/app-Dqq4a65M.js",
+    "file": "assets/app-C4GmJSBZ.js",
     "name": "app",
     "src": "resources/ts/app.ts",
     "isEntry": true,
@@ -90,15 +89,17 @@
       "resources/ts/pages/HomePage.vue",
       "resources/ts/pages/OrganizationPage.vue",
       "resources/ts/pages/GuidePage.vue",
-      "resources/ts/pages/OrganizationGuidePage.vue",
-      "resources/ts/pages/TransportTypeGuidePage.vue",
-      "resources/ts/pages/TransportListGuidePage.vue",
-      "resources/ts/pages/OrganizationTransportPage.vue",
-      "resources/ts/pages/SmenaGuidePage.vue"
+      "resources/ts/pages/Guides/LavozimGuidePage.vue",
+      "resources/ts/pages/Guides/EmployeGuidePage.vue",
+      "resources/ts/pages/Guides/OrganizationGuidePage.vue",
+      "resources/ts/pages/Guides/TransportTypeGuidePage.vue",
+      "resources/ts/pages/Guides/TransportListGuidePage.vue",
+      "resources/ts/pages/Guides/TransportGuidePage.vue",
+      "resources/ts/pages/Guides/SmenaGuidePage.vue"
     ]
   },
   "resources/ts/pages/GuidePage.vue": {
-    "file": "assets/GuidePage-D7wxiKsU.js",
+    "file": "assets/GuidePage-DdFBQcbg.js",
     "name": "GuidePage",
     "src": "resources/ts/pages/GuidePage.vue",
     "isDynamicEntry": true,
@@ -106,96 +107,122 @@
       "resources/ts/app.ts"
     ]
   },
+  "resources/ts/pages/Guides/EmployeGuidePage.vue": {
+    "file": "assets/EmployeGuidePage--VqafSZB.js",
+    "name": "EmployeGuidePage",
+    "src": "resources/ts/pages/Guides/EmployeGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js",
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js"
+    ]
+  },
+  "resources/ts/pages/Guides/LavozimGuidePage.vue": {
+    "file": "assets/LavozimGuidePage-BBkuJODA.js",
+    "name": "LavozimGuidePage",
+    "src": "resources/ts/pages/Guides/LavozimGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js",
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js"
+    ]
+  },
+  "resources/ts/pages/Guides/OrganizationGuidePage.vue": {
+    "file": "assets/OrganizationGuidePage-ZFQuSncP.js",
+    "name": "OrganizationGuidePage",
+    "src": "resources/ts/pages/Guides/OrganizationGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_OrganizationRepo-Co_rM9b_.js",
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js"
+    ]
+  },
+  "resources/ts/pages/Guides/SmenaGuidePage.vue": {
+    "file": "assets/SmenaGuidePage-BDh_VJ0M.js",
+    "name": "SmenaGuidePage",
+    "src": "resources/ts/pages/Guides/SmenaGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-B8-WGO63.js",
+      "_index-BGY1eZ2G.js",
+      "resources/ts/app.ts",
+      "_ChangeRepo-Cv2ole86.js"
+    ]
+  },
+  "resources/ts/pages/Guides/TransportGuidePage.vue": {
+    "file": "assets/TransportGuidePage-CJHt38XN.js",
+    "name": "TransportGuidePage",
+    "src": "resources/ts/pages/Guides/TransportGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-B8-WGO63.js",
+      "resources/ts/app.ts",
+      "_PrimeInputs-BpjKOdBv.js",
+      "_ChangeRepo-Cv2ole86.js",
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_index-BGY1eZ2G.js"
+    ]
+  },
+  "resources/ts/pages/Guides/TransportListGuidePage.vue": {
+    "file": "assets/TransportListGuidePage-LxopVLET.js",
+    "name": "TransportListGuidePage",
+    "src": "resources/ts/pages/Guides/TransportListGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_TransportListRepo-CIY4awZL.js",
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js"
+    ]
+  },
+  "resources/ts/pages/Guides/TransportTypeGuidePage.vue": {
+    "file": "assets/TransportTypeGuidePage-D_7V7qM9.js",
+    "name": "TransportTypeGuidePage",
+    "src": "resources/ts/pages/Guides/TransportTypeGuidePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UseCrudPage.vue_vue_type_script_setup_true_lang-D6rCueQf.js",
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js",
+      "resources/ts/app.ts",
+      "_index-B8-WGO63.js"
+    ]
+  },
   "resources/ts/pages/HomePage.vue": {
-    "file": "assets/HomePage-BDMcakHn.js",
+    "file": "assets/HomePage-Be8KiFKr.js",
     "name": "HomePage",
     "src": "resources/ts/pages/HomePage.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_TabButton.vue_vue_type_script_setup_true_lang-BdTixBLv.js",
-      "_OrganizationRepo-SAoGxYYw.js",
+      "_OrganizationRepo-Co_rM9b_.js",
       "resources/ts/app.ts",
-      "_useFetch-D45EbHv3.js"
-    ]
-  },
-  "resources/ts/pages/OrganizationGuidePage.vue": {
-    "file": "assets/OrganizationGuidePage-D_IenVIb.js",
-    "name": "OrganizationGuidePage",
-    "src": "resources/ts/pages/OrganizationGuidePage.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-      "_index-CBr-MpG8.js",
-      "resources/ts/app.ts",
-      "_OrganizationRepo-SAoGxYYw.js",
-      "_useFetch-D45EbHv3.js"
+      "_index-BGY1eZ2G.js",
+      "_PrimeInputs-BpjKOdBv.js"
     ]
   },
   "resources/ts/pages/OrganizationPage.vue": {
-    "file": "assets/OrganizationPage-NHntOwfw.js",
+    "file": "assets/OrganizationPage-CxP2i6Gx.js",
     "name": "OrganizationPage",
     "src": "resources/ts/pages/OrganizationPage.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/ts/app.ts",
-      "_useFetch-D45EbHv3.js",
-      "_TabButton.vue_vue_type_script_setup_true_lang-BdTixBLv.js",
-      "_OrganizationRepo-SAoGxYYw.js"
-    ]
-  },
-  "resources/ts/pages/OrganizationTransportPage.vue": {
-    "file": "assets/OrganizationTransportPage-D4Pphiwe.js",
-    "name": "OrganizationTransportPage",
-    "src": "resources/ts/pages/OrganizationTransportPage.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-      "resources/ts/app.ts",
-      "_index-CBr-MpG8.js",
-      "_SmenaRepo-COpIk1m2.js",
-      "_TabButton.vue_vue_type_script_setup_true_lang-BdTixBLv.js",
-      "_TransportListRepo-HjEdcF-H.js",
-      "_OrganizationRepo-SAoGxYYw.js",
-      "_useFetch-D45EbHv3.js"
-    ]
-  },
-  "resources/ts/pages/SmenaGuidePage.vue": {
-    "file": "assets/SmenaGuidePage-DrzFC53P.js",
-    "name": "SmenaGuidePage",
-    "src": "resources/ts/pages/SmenaGuidePage.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-      "resources/ts/app.ts",
-      "_SmenaRepo-COpIk1m2.js",
-      "_useFetch-D45EbHv3.js"
-    ]
-  },
-  "resources/ts/pages/TransportListGuidePage.vue": {
-    "file": "assets/TransportListGuidePage-Dbw1pSd8.js",
-    "name": "TransportListGuidePage",
-    "src": "resources/ts/pages/TransportListGuidePage.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-      "_index-CBr-MpG8.js",
-      "resources/ts/app.ts",
-      "_TransportTypeRepo-Djz1Rucm.js",
-      "_TransportListRepo-HjEdcF-H.js",
-      "_useFetch-D45EbHv3.js"
-    ]
-  },
-  "resources/ts/pages/TransportTypeGuidePage.vue": {
-    "file": "assets/TransportTypeGuidePage-D1HCkdPZ.js",
-    "name": "TransportTypeGuidePage",
-    "src": "resources/ts/pages/TransportTypeGuidePage.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_BaseForm.vue_vue_type_script_setup_true_lang-C2v4_LeH.js",
-      "_index-CBr-MpG8.js",
-      "resources/ts/app.ts",
-      "_TransportTypeRepo-Djz1Rucm.js",
-      "_useFetch-D45EbHv3.js"
+      "_index-BGY1eZ2G.js",
+      "_TransportListRepo-CIY4awZL.js",
+      "_OrganizationRepo-Co_rM9b_.js",
+      "_PrimeInputs-BpjKOdBv.js"
     ]
   }
 }
