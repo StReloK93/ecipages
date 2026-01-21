@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Transport;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-class TransportController extends Controller
+class TransportController extends BaseCrudController
 {
-   public function update($id, Request $request)
+   protected string $model = Transport::class;
+   public function update(Request $request, $id)
    {
 
       $transport = Transport::find($id);
@@ -23,10 +24,6 @@ class TransportController extends Controller
    }
 
 
-   public function show($id)
-   {
-      return Transport::find($id);
-   }
 
    public function store(Request $request)
    {
@@ -43,9 +40,4 @@ class TransportController extends Controller
       return $transport->fresh();
    }
 
-
-   public function destroy($id)
-   {
-      return Transport::destroy($id);
-   }
 }

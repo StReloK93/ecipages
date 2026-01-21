@@ -1,20 +1,58 @@
-import { useFetch } from "../modules/useFetch"
-import { ITransportList } from "../Interfaces"
-const baseURL = 'transport-lists'
+import { api } from "../modules/useFetch";
+import { InputConfig, ITransportList } from "../Interfaces";
+import { PrimeInputs, globalProps, selectOption } from "@/modules/PrimeInputs";
+import * as yup from "yup";
+const baseURL = "transport-lists";
 
-function index() {
-   return useFetch<ITransportList[]>({ url: `${baseURL}` })
-}
+export default {
+   index() {
+      return api.get<ITransportList[]>(`${baseURL}`);
+   },
+   byTransportType(transport_type_id: number, organization_id: number) {
+      return api.get<ITransportList[]>(`${baseURL}/by/transport-type/${transport_type_id}`);
+   },
+   show(id: number) {
+      return api.get<ITransportList>(`${baseURL}/${id}`);
+   },
+   store(formData: ITransportList) {
+      return api.post<ITransportList>(`${baseURL}`, formData);
+   },
+   update(id: number, formData: any) {
+      return api.put<ITransportList>(`${baseURL}/${id}`, formData);
+   },
+   destroy(id: number | undefined) {
+      return api.delete(`${baseURL}/${id}`);
+   },
 
-function store(formData: ITransportList, onload?: Function) {
-   return useFetch<ITransportList>({ url: `${baseURL}`, formData: formData, method: 'post', onLoad: onload })
-}
+   inputs: [
+      {
+         component: PrimeInputs["InputText"],
+         name: "name",
+         placeholder: "Nomi",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
+      {
+         component: PrimeInputs["Select"],
+         name: "transport_type_id",
+         placeholder: "Transport turi",
+         generateProps: async function () {
+            const { data } = await api.get("transport-types");
+            this.props = selectOption(data, "name");
+         },
+         schema: yup.string().optional(),
+      },
+   ] as InputConfig[],
 
-function update(id: number, formData: any,  onLoad?: Function) {
-   return useFetch<ITransportList>({ url: `${baseURL}/${id}`, formData: formData, method: 'put' , onLoad})
-}
-
-function destroy(id: number | undefined, onload?: Function) {
-   return useFetch({ url: `${baseURL}/${id}`, method: 'delete', onLoad: onload })
-}
-export default { index, store, update, destroy }
+   columns: [
+      {
+         field: "name",
+         header: "Nomi",
+      },
+      {
+         field: "transport_type.name",
+         header: "Transport turi",
+      },
+   ],
+};

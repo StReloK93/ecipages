@@ -11,6 +11,6 @@ class TransportType extends Model
 
     protected $fillable = [
         'name',
-        'name_ru',
+        'organization_id',
     ];
 }

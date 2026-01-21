@@ -13,7 +13,6 @@ class Change extends Model
 
     protected $fillable = [
         'name',
-        'name_ru',
     ];
 }
 

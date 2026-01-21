@@ -23,7 +23,7 @@
                </tr>
                <tr>
                   <td class="border border-white bg-gray-50 w-7 h-7 text-center">
-                     <span class="p-button-icon pi pi-moon  !text-sm text-sky-500"></span>
+                     <span class="p-button-icon pi pi-moon !text-sm text-sky-500"></span>
                   </td>
                   <td class="border border-white bg-gray-50 w-7 h-7 text-center" v-for="n in 30">
                      <div class="h-full w-full flex items-center justify-center border border-gray-200">
@@ -45,34 +45,34 @@
 </template>
 
 <script setup lang="ts">
-import MiniSelect from './MiniSelect.vue';
-import ChangeRepo from '../repositories/ChangeRepo';
-import { IChange } from '../Interfaces';
-import { reactive, ref, Ref } from 'vue';
-import BaseForm from './BaseForm.vue';
+import MiniSelect from "@components/MiniSelect.vue";
+import ChangeRepo from "@repositories/ChangeRepo";
+import { IChange } from "@/Interfaces";
+import { reactive, ref, Ref } from "vue";
+import BaseForm from "@components/OldBaseForm.vue";
 defineProps<{
-   submit: (values: any) => Promise<void>
-}>()
+   submit: (values: any) => Promise<void>;
+}>();
 
-const smenas: Ref<any[]> = ref([])
+const smenas: Ref<any[]> = ref([]);
 ChangeRepo.index(({ data }: { data: IChange[] }) => {
-   smenas.value = data
-})
-
+   smenas.value = data;
+});
 
 const initialValues = reactive({
-   name: '', formula: {
+   name: "",
+   formula: {
       first: {},
       second: {},
-   }
-})
+   },
+});
 
 const resolver = ({ values }: { values: any }) => {
    const errors: any = {};
-   const error = "To'ldiring"
+   const error = "To'ldiring";
 
    if (!values.name) errors.name = [error];
 
-   return { values, errors }
+   return { values, errors };
 };
 </script>

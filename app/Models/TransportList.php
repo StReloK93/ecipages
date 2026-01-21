@@ -10,7 +10,6 @@ class TransportList extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'name_ru',
         'transport_type_id',
     ];
     protected $with = ['transport_type'];

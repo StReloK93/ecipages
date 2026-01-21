@@ -1,10 +1,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @import "tailwindcss";
 @import "tailwindcss-primeui";
-@import 'primeicons/primeicons.css';
-
+@import "primeicons/primeicons.css";
 
 .p-tablist-tab-list,
 .p-tabpanels {
    background: transparent !important;
+}
+
+:root {
+   --p-form-field-sm-padding-y: 4px !important;
+   --p-form-field-sm-padding-x: 8px !important;
 }

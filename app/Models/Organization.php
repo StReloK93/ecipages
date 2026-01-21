@@ -14,11 +14,14 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
-        'name_ru',
+        'short_name',
     ];
 
-    public function transports(): HasMany
+
+    public function transport_types(): HasMany
     {
-        return $this->hasMany(Transport::class);
+        return $this->hasMany(TransportType::class);
     }
+
+
 }

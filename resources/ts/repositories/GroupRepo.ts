@@ -1,14 +1,13 @@
-import { useFetch } from "../modules/useFetch"
-import { IGroup } from "../Interfaces"
-const baseURL = 'groups'
-
+import { useFetch, api } from "../modules/useFetch";
+import { IGroup } from "../Interfaces";
+const baseURL = "groups";
 
 function index() {
-   return useFetch<IGroup[]>({ url: `${baseURL}` })
+   return api.get<IGroup[]>(`${baseURL}`);
 }
 
-function getGroupsByTransportId(transport_id: number, onLoad?: Function) {
-   return useFetch<IGroup[]>({ url: `${baseURL}/by/${transport_id}`, onLoad: onLoad })
+function getGroupsByTransportId(transport_id: number) {
+   return api.get<IGroup[]>(`${baseURL}/by/${transport_id}`);
 }
 
-export default { index, getGroupsByTransportId }
+export default { index, getGroupsByTransportId };

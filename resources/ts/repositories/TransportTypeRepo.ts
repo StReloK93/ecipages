@@ -1,20 +1,42 @@
-import { useFetch } from "../modules/useFetch"
-import { ITransportType } from "../Interfaces"
-const baseURL = 'transport-types'
+import { useFetch, api } from "../modules/useFetch";
+import { ITransportType } from "../Interfaces";
+import { PrimeInputs, globalProps } from "@/modules/PrimeInputs";
+import * as yup from "yup";
 
-function index() {
-   return useFetch<ITransportType[]>({ url: `${baseURL}` })
-}
+const baseURL = "transport-types";
 
-function store(formData: ITransportType, onload?: Function) {
-   return useFetch<ITransportType[]>({ url: `${baseURL}`, formData: formData, method: 'post', onLoad: onload })
-}
+export default {
+   index() {
+      return api.get(`${baseURL}`);
+   },
+   show(id: number) {
+      return api.get(`${baseURL}/${id}`);
+   },
+   store(formData: ITransportType) {
+      return api.post(`${baseURL}`, formData);
+   },
+   update(id: number, formData: any) {
+      return api.put(`${baseURL}/${id}`, formData);
+   },
+   destroy(id: number | undefined) {
+      return api.delete(`${baseURL}/${id}`);
+   },
 
-function update(id: number, formData: any, onLoad?: Function) {
-   return useFetch<ITransportType[]>({ url: `${baseURL}/${id}`, formData: formData, method: 'put', onLoad: onLoad })
-}
+   inputs: [
+      {
+         component: PrimeInputs["InputText"],
+         name: "name",
+         placeholder: "Nomi",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
+   ],
 
-function destroy(id: number | undefined, onload?: Function) {
-   return useFetch<ITransportType[]>({ url: `${baseURL}/${id}`, method: 'delete', onLoad: onload })
-}
-export default { index, store, update, destroy }
+   columns: [
+      {
+         field: "name",
+         header: "Nomi",
+      },
+   ],
+};

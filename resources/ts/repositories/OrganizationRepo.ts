@@ -1,53 +1,48 @@
-import { useFetch } from "../modules/useFetch"
-import { IOrganization, ITransport, ITab } from "../Interfaces"
-import { computed } from "vue"
-const baseURL = 'organizations'
+import { api } from "../modules/useFetch";
+import { InputConfig, IOrganization } from "../Interfaces";
+import * as yup from "yup";
+import { PrimeInputs, globalProps } from "@/modules/PrimeInputs";
+const baseURL = "organizations";
 
-
-function index(onload?: Function) {
-   return useFetch<IOrganization[]>({ url: `${baseURL}`, onLoad: onload })
-}
-
-function store(formData: IOrganization, onload?: Function) {
-   return useFetch<ITransport[]>({ url: `${baseURL}`, formData: formData, method: 'post', onLoad: onload })
-}
-
-function transports(formData: any, onLoad?: Function) {
-   const { data, fetchData, isLoading } = useFetch<ITransport[]>({ url: `${baseURL}/transports`, formData, method: 'post', onLoad })
-
-   const currentTransports = computed(() => {
-      const result: ITab[] = []
-
-      data.value?.forEach((car) => {
-         const current = result.find((item) => item.key == car.transport_list.transport_type.id)
-         if (current) {
-            current.content.push(car)
-         }
-         else {
-            result.push({
-               title: car.transport_list.transport_type.name,
-               key: car.transport_list.transport_type.id,
-               content: [car]
-            })
-         }
-      })
-
-      return result.sort((a,b) => a.key - b.key)
-   })
-
-
-   
-
-
-   return { data, fetchData, currentTransports, isLoading }
-}
-
-function update(id: number, formData: any) {
-   return useFetch<ITransport[]>({ url: `${baseURL}/${id}`, formData: formData, method: 'put' })
-}
-
-function destroy(id: number | undefined, onload?: Function) {
-   return useFetch<ITransport[]>({ url: `${baseURL}/${id}`, method: 'delete', onLoad: onload })
-}
-
-export default { index, transports, store, update, destroy }
+export default {
+   index() {
+      return api.get<IOrganization[]>(`${baseURL}`);
+   },
+   show(id: number) {
+      return api.get<IOrganization>(`${baseURL}/${id}`);
+   },
+   store(formData: IOrganization) {
+      return api.post<IOrganization>(`${baseURL}`, formData);
+   },
+   update(id: number, formData: any) {
+      return api.put<IOrganization>(`${baseURL}/${id}`, formData);
+   },
+   destroy(id: number) {
+      return api.delete(`${baseURL}/${id}`);
+   },
+   transports(formData: any) {
+      return api.post(`${baseURL}/transports`, formData);
+   },
+   columns: [
+      { field: "name", header: "Nomi" },
+      { field: "short_name", header: "Qisqa nomi" },
+   ],
+   inputs: [
+      {
+         component: PrimeInputs["InputText"],
+         name: "name",
+         placeholder: "Nomi",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
+      {
+         component: PrimeInputs["InputText"],
+         name: "short_name",
+         placeholder: "Qisqa nomi",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
+   ] as InputConfig[],
+};

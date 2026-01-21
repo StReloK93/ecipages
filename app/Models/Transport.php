@@ -13,7 +13,6 @@ class Transport extends Model
     protected $fillable = [
         'garage_number',
         'transport_list_id',
-        'organization_id',
         'smena_id',
         'start_smena_day',
     ];
@@ -24,12 +23,12 @@ class Transport extends Model
         return $this->belongsTo(TransportList::class);
     }
 
-        public function smena()
+    public function smena()
     {
         return $this->belongsTo(Smena::class);
     }
 
-    
+
     protected $casts = [
         'transport_list_id' => 'integer',
         'organization_id' => 'integer',
