@@ -9,27 +9,22 @@ class Employe extends Model
 {
     use HasFactory;
 
+    protected $with = ['transport_list'];
 
-    protected $with = ['lavozim', 'organization'];
+
     protected $fillable = [
         'name',
         'table',
-        'lavozim_id',
-        'organization_id',
+        'razryad',
+        'transport_list_id',
     ];
     protected $casts = [
-        'lavozim_id' => 'integer',
-        'organization_id' => 'integer',
+        'transport_list_id' => 'integer',
     ];
 
 
-    public function lavozim()
+    public function transport_list()
     {
-        return $this->belongsTo(Lavozim::class);
-    }
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(TransportList::class);
     }
 }

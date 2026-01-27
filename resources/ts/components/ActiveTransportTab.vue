@@ -1,60 +1,65 @@
 <template>
    <main class="flex flex-grow">
-      <aside class="p-4 flex-grow bg-gray-50 dark:bg-zinc-900 border-l border-gray-300 dark:border-zinc-600">
-         <main>
-            {{ transport_type }}
-            <!-- <SmenaViewer :transport="currentTab" /> -->
-            <!-- {{ currentTab }} -->
-         </main>
-         <!-- <main v-for="user in currentGroups">
-            {{ user.tabel }}
-            {{ user.change }}
-            {{ user.active_from }}
-         </main> -->
-         <!-- <DragBlock v-if="currentTab" /> -->
-      </aside>
-      <nav class="flex flex-col gap-0.5 items-end py-4 border-l border-gray-300 dark:border-zinc-600 min-w-40">
-         <template v-for="car in transportLists">
+      <nav class="flex flex-col gap-0.5 items-end py-8 min-w-40">
+         <template v-for="list in transportLists">
             <TabButton
+               v-for="transport in list.transports"
                class="w-full text-left"
-               direction="left"
-               @click="onSelectTransport(car)"
-               :active="currentTab?.id == car.id"
+               direction="right"
+               @click="onSelectTransport(transport, list)"
+               :active="currentTransport?.id == transport.id"
             >
-               {{ car.name }}
+               {{ transport.garage_number }} {{ list.name }}
             </TabButton>
          </template>
       </nav>
+      <aside
+         class="p-8 flex-grow bg-gray-50/80 dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-600 rounded-4xl"
+      >
+         <DragBlock
+            class="mb-4"
+            v-if="currentList && currentTransport && changes"
+            :changes="changes!"
+            :list="currentList"
+            :lavozims="props.transport_type.lavozims"
+            :transport="currentTransport!"
+         />
+         <main>
+            <SmenaViewer v-if="currentTransport" :transport="currentTransport" />
+         </main>
+      </aside>
    </main>
 </template>
 
 <script setup lang="ts">
 import DragBlock from "@/components/DragBlock.vue";
 import SmenaViewer from "../entities/Smena/SmenaViewer.vue";
-import GroupRepo from "../repositories/GroupRepo";
 import TransportListRepo from "@/repositories/TransportListRepo";
 import TabButton from "./TabButton.vue";
-import { ref, Ref, onMounted } from "vue";
-import { ITransport, IGroup, ITransportType, ITransportList } from "../Interfaces";
+import { ref, Ref, onMounted, nextTick } from "vue";
+import { IChange, ITransport, ITransportList, ITransportType } from "../Interfaces";
+import { useFetchDecorator } from "@/modules/useFetch";
+import ChangeRepo from "@/repositories/ChangeRepo";
 const props = defineProps<{ transport_type: ITransportType }>();
 
 const transportLists: Ref<ITransportList[]> = ref([]);
-const currentTab: Ref<ITransportList | null> = ref(null);
-// const currentGroups: Ref<IGroup[] | null> = ref(null);
+const currentTransport: Ref<ITransport | null> = ref(null);
+const currentList: Ref<ITransportList | null> = ref(null);
 
-async function onSelectTransport(transportList: ITransportList) {
-   // currentGroups.value = null;
-   currentTab.value = transportList;
-   // const { data } = await GroupRepo.getGroupsByTransportId(transport.id!);
-   // currentGroups.value = data;
+const { execute: executeChange, data: changes } = useFetchDecorator<IChange[]>(ChangeRepo.index);
+async function onSelectTransport(transport: ITransport, list: ITransportList) {
+   currentList.value = null;
+   currentTransport.value = null;
+   await nextTick();
+   currentTransport.value = transport;
+
+   currentList.value = list;
 }
 
 onMounted(async () => {
-   const { data } = await TransportListRepo.byTransportType(
-      props.transport_type.id!,
-      props.transport_type.organization_id!
-   );
-   transportLists.value = data;
-   // onSelectTransport(currentTab.value);
+   const { data: lists } = await TransportListRepo.byTransportType(props.transport_type.id!);
+   await executeChange();
+   transportLists.value = lists;
+   if (lists.length > 0 && lists[0].transports[0]) onSelectTransport(lists[0].transports[0], lists[0]);
 });
 </script>

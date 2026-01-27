@@ -1,109 +1,90 @@
 <template>
-   <div class="p-8 bg-gray-50 min-h-screen font-sans">
-      <div class="flex gap-8">
-         <div class="w-1/3 bg-white p-5 rounded-xl shadow-md h-fit">
-            <h3 class="font-bold text-gray-500 mb-4">Barcha Userlar (Nusxalanadi)</h3>
+   <div class="font-sans">
+      <div class="flex gap-5">
+         <div class="w-1/3 rounded-xl h-fit">
             <div class="flex flex-col gap-2">
                <div
-                  v-for="user in allUsers"
+                  v-for="user in props.list.employes"
                   :key="user.id"
                   draggable="true"
                   @dragstart="onDragStart($event, user)"
-                  class="p-3 bg-white border border-gray-200 shadow-sm rounded-lg cursor-grab active:cursor-grabbing hover:bg-blue-50 hover:border-blue-300 transition-all flex items-center gap-3"
+                  class="rounded-3xl py-2 px-4 bg-white border border-surface-100 cursor-grab active:cursor-grabbing hover:bg-blue-50 hover:border-blue-300 transition-all flex items-center gap-3"
                >
-                  <div
-                     class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm"
-                  >
-                     {{ user.name.charAt(0) }}
-                  </div>
-                  <span class="font-medium text-gray-700">{{ user.name }}</span>
-                  <i class="pi pi-clone ml-auto text-gray-400 text-sm"></i>
+                  <span class="font-medium text-gray-700">{{ user.name }} {{ user.razryad }}</span>
+                  <i class="pi pi-clone ml-auto text-sky-600 text-sm mr-2"></i>
                </div>
             </div>
          </div>
-
-         <div class="w-2/3 grid grid-cols-2 gap-4">
+         <div class="w-2/3 grid grid-cols-1 gap-4">
             <div
-               v-for="box in boxes"
-               :key="box.id"
-               @dragover.prevent="onDragOver"
-               @drop="onDrop($event, box)"
-               @dragenter="box.isHovered = true"
-               @dragleave="box.isHovered = false"
-               class="min-h-[200px] border-2 border-dashed rounded-xl p-4 transition-all flex flex-col gap-2 bg-white"
-               :class="[box.isHovered ? 'border-blue-500 bg-blue-50' : 'border-gray-300']"
+               v-for="lavozim in groupLavozims"
+               :key="lavozim.id"
+               class="min-h-[150px] border border-surface-100 rounded-xl flex flex-col bg-white"
             >
-               <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-100">
-                  <span class="font-bold text-gray-600 text-sm">Katak #{{ box.id }}</span>
-                  <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full"
-                     >{{ box.users.length }} kishi</span
-                  >
+               <div class="flex justify-between items-center border-b border-gray-100 py-3 px-4">
+                  <span class="font-semibold text-gray-600 text-sm">{{ lavozim.name }}</span>
                </div>
-
-               <div v-if="box.users.length > 0" class="flex flex-wrap gap-2">
+               <main class="flex flex-grow">
                   <div
-                     v-for="(user, index) in box.users"
-                     :key="index"
-                     class="flex items-center gap-2 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full animate-pop-in"
+                     v-for="change_id in uniqueValuesSet"
+                     @dragover.prevent="onDragOver($event, lavozim[change_id])"
+                     @dragleave="hoveredBox = null"
+                     @drop="onDrop($event, lavozim, change_id)"
+                     :class="{ 'bg-surface-50': hoveredBox == lavozim[change_id] }"
+                     class="basis-0 flex-grow border-l first:border-0 border-surface-100 h-full relative transition-all"
                   >
-                     <span class="text-sm font-semibold text-green-700">{{ user.name }}</span>
-                     <button
-                        @click="removeUserFromBox(box, index)"
-                        class="text-green-400 hover:text-red-500 transition-colors"
+                     <span
+                        class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 inline-flex items-center justify-center text-sm absolute top-2 right-2"
                      >
-                        <i class="pi pi-times-circle"></i>
-                     </button>
+                        {{ findChange(change_id) }}
+                     </span>
+                     <div v-if="lavozim[change_id].length > 0" class="flex flex-wrap gap-2 p-3 items-start">
+                        <Chip
+                           v-for="(group, index) in lavozim[change_id]"
+                           @remove="removeUserFromBox(group.id, lavozim[change_id], index)"
+                           :key="group"
+                           :label="group.employe.name"
+                           class="text-xs!"
+                           removable
+                        />
+                     </div>
                   </div>
-               </div>
-
-               <div v-else class="flex-1 flex items-center justify-center text-gray-300 text-sm">Bosh katak</div>
+               </main>
             </div>
          </div>
-      </div>
-
-      <div class="mt-8 p-4 bg-gray-900 text-green-400 font-mono text-xs rounded-lg h-40 overflow-y-auto">
-         <div v-for="(log, i) in logs" :key="i">> {{ log }}</div>
       </div>
    </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useToast } from "primevue/usetoast";
+import GroupRepo from "@/repositories/GroupRepo";
+import { ITransportList, IEmployee, ILavozim, ITransport, IChange, IGroup } from "@/Interfaces";
+import { onMounted, ref } from "vue";
+import { useFetchDecorator } from "@/modules/useFetch";
 
-// --- TIPLAR ---
-interface User {
-   id: number;
-   name: string;
+const toast = useToast();
+const hoveredBox = ref();
+const props = defineProps<{
+   list: ITransportList;
+   lavozims: ILavozim[];
+   transport: ITransport;
+   changes: IChange[];
+}>();
+
+const { execute: executeGroup, data: groups } = useFetchDecorator<IGroup[]>(GroupRepo.byTransport);
+
+function findChange(id: number) {
+   const change = props.changes.find((change) => change.id == id);
+   if (change) return change.name;
+   else return null;
 }
+const uniqueValuesSet = new Set<number>(Object.values(props.transport.smena.formula.first));
+const draggingItem = ref<IEmployee | null>(null);
 
-interface Box {
-   id: number;
-   users: User[]; // <-- O'ZGARDI: Endi bu massiv
-   isHovered: boolean;
-}
+const groupLavozims = ref();
 
-// --- STATE ---
-const allUsers = ref<User[]>([
-   { id: 1, name: "Ali" },
-   { id: 2, name: "Vali" },
-   { id: 3, name: "Gani" },
-   { id: 4, name: "Sardor" },
-   { id: 5, name: "Malika" },
-]);
-
-const boxes = ref<Box[]>([
-   { id: 1, users: [], isHovered: false },
-   { id: 2, users: [], isHovered: false },
-   { id: 3, users: [], isHovered: false },
-   { id: 4, users: [], isHovered: false },
-]);
-
-const logs = ref<string[]>([]);
-const draggingItem = ref<User | null>(null);
-
-// --- EVENTLAR ---
-
-const onDragStart = (event: DragEvent, user: User) => {
+const onDragStart = (event: DragEvent, user: IEmployee) => {
    draggingItem.value = user;
    if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = "copy"; // "Copy" ikonkasi chiqishi uchun
@@ -111,51 +92,70 @@ const onDragStart = (event: DragEvent, user: User) => {
    }
 };
 
-const onDragOver = (event: DragEvent) => {
-   event.preventDefault();
-   if (event.dataTransfer) {
-      event.dataTransfer.dropEffect = "copy"; // Drop qilganda "+" belgisi chiqadi
+const onDragOver = (event: DragEvent, lavozim: any) => {
+   if (hoveredBox.value != lavozim) {
+      hoveredBox.value = lavozim;
    }
 };
 
-const onDrop = (event: DragEvent, box: Box) => {
-   box.isHovered = false;
+const onDrop = async (event: DragEvent, lavozim: any, changeId: number) => {
+   hoveredBox.value = null;
+   const formData = {
+      transport_id: props.transport.id!,
+      change_id: changeId,
+      employe_id: draggingItem.value?.id!,
+      lavozim_id: lavozim.id,
+   };
 
    if (draggingItem.value) {
-      // 1. DUBLIKAT TEKSHIRISH (Ixtiyoriy)
-      // Agar bitta katakda aynan shu user bor bo'lsa, qayta qo'shmaymiz
-      const alreadyExists = box.users.some((u) => u.id === draggingItem.value?.id);
+      const alreadyExists = lavozim[changeId].some((user: { id: number }) => user.id === draggingItem.value?.id);
 
-      if (alreadyExists) {
-         addLog(`XATO: ${draggingItem.value.name} bu katakda (#${box.id}) allaqachon bor!`);
-         // draggingItem.value = null; // Agar xohlasangiz dragni to'xtating
-         return;
-      }
+      if (alreadyExists) return;
 
-      // 2. USERNI QO'SHISH (Push)
-      // Muhim: Obyektni nusxasini olish kerak (copy), aks holda reference muammosi bo'lishi mumkin
-      box.users.push({ ...draggingItem.value });
+      console.log(draggingItem.value.name);
 
-      // 3. Event chiqarish
-      addLogEvent(draggingItem.value, box.id);
+      await GroupRepo.store(formData)
+         .then((res) => {
+            lavozim[changeId].push(res.data);
+         })
+         .catch((err) => {
+            toast.add({
+               severity: "error",
+               summary: `${draggingItem.value?.name} bu smenada  mavjud.`,
+               detail: "Bir kishi bir smenada ikki lavozimda ishlay olmaydi!",
+               life: 5000,
+            });
+         });
 
       draggingItem.value = null;
    }
 };
 
-const removeUserFromBox = (box: Box, index: number) => {
-   box.users.splice(index, 1);
+const removeUserFromBox = (group_id: number, box: any, index: number | string) => {
+   GroupRepo.destroy(group_id).then((result) => {
+      box[index].splice(index, 1);
+   });
 };
 
-const addLog = (msg: string) => {
-   logs.value.unshift(msg);
-};
+onMounted(async () => {
+   await executeGroup(props.transport.id!);
+   groupLavozims.value = props.lavozims.map((lavozim: any) => {
+      uniqueValuesSet.forEach((value) => {
+         const currentGroups = groups.value?.filter(
+            (group) =>
+               group.change_id == value && group.lavozim_id == lavozim.id && group.transport_id == props.transport.id,
+         );
 
-const addLogEvent = (user: User, boxId: number) => {
-   const msg = `EVENT: ${user.name} (ID:${user.id}) -> Katak #${boxId} ga qo'shildi.`;
-   logs.value.unshift(msg);
-   console.log({ userId: user.id, boxId, action: "add" });
-};
+         lavozim[value] = [];
+
+         currentGroups?.forEach((group) => {
+            lavozim[value].push(group);
+         });
+      });
+
+      return lavozim;
+   });
+});
 </script>
 
 <style scoped>

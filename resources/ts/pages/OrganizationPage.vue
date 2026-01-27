@@ -1,17 +1,8 @@
 <template>
-   <section v-if="!isLoading" name="tabs" class="flex flex-col p-8">
-      <Breadcrumb
-         :model="[
-            { label: 'Bosh sahifa', command: () => $router.push({ name: 'home' }) },
-            { label: organization?.short_name },
-         ]"
-         class="bg-transparent! p-0! mb-2"
-      >
-         <template #separator> <i class="pi pi-angle-right text-sm!" /> </template
-      ></Breadcrumb>
-      <nav class="flex gap-0.5 border-b border-b-gray-300 dark:border-zinc-600">
+   <section v-if="!isLoading" name="tabs" class="flex flex-col p-5">
+      <nav class="flex gap-0.5 dark:border-zinc-600 pl-48">
          <template v-for="type in organization?.transport_types">
-            <TabButton :active="currentTab == type.id" @click="currentTab = type.id!">
+            <TabButton class="text-xl!" :active="currentTab == type.id" @click="currentTab = type.id!">
                {{ type.name }}
             </TabButton>
          </template>
@@ -37,13 +28,19 @@ import { IOrganization } from "@/Interfaces";
 const props = defineProps(["id"]);
 const currentTab: Ref<number | null> = ref(null);
 
-const { execute, isLoading, data: organization } = useFetchDecorator<IOrganization>(OrganizationRepo.transports);
+const {
+   execute: executeTransport,
+   isLoading,
+   data: organization,
+} = useFetchDecorator<IOrganization>(OrganizationRepo.transports);
+
 watch(
    () => props.id,
-   (current) => execute({ id: current })
+   (current) => executeTransport({ id: current })
 );
 onMounted(async () => {
-   await execute({ id: props.id });
+   // await executeChange();
+   await executeTransport({ id: props.id });
    if (organization.value && organization.value.transport_types[0]) {
       currentTab.value = organization.value.transport_types[0].id!;
    }

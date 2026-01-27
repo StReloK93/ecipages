@@ -1,13 +1,24 @@
-import { useFetch, api } from "../modules/useFetch";
+import { api } from "../modules/useFetch";
 import { IGroup } from "../Interfaces";
 const baseURL = "groups";
 
-function index() {
-   return api.get<IGroup[]>(`${baseURL}`);
-}
-
-function getGroupsByTransportId(transport_id: number) {
-   return api.get<IGroup[]>(`${baseURL}/by/${transport_id}`);
-}
-
-export default { index, getGroupsByTransportId };
+export default {
+   index() {
+      return api.get<IGroup[]>(`${baseURL}`);
+   },
+   byTransport(transport_id: number) {
+      return api.get<IGroup[]>(`${baseURL}/transport/${transport_id}`);
+   },
+   show(id: number) {
+      return api.get<IGroup>(`${baseURL}/${id}`);
+   },
+   async store(formData: { lavozim_id: number; transport_id: number; employe_id: number; change_id: number }) {
+      return await api.post<IGroup>(`${baseURL}`, formData);
+   },
+   update(id: number, formData: any) {
+      return api.put<IGroup>(`${baseURL}/${id}`, formData);
+   },
+   destroy(id: number | undefined) {
+      return api.delete(`${baseURL}/${id}`);
+   },
+};

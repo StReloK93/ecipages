@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('lavozims', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('organization_id');
             $table->integer('transport_type_id');
             $table->timestamps();
         });

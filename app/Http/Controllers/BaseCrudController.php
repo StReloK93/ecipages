@@ -34,7 +34,6 @@ abstract class BaseCrudController extends Controller
    public function destroy($id)
    {
       $item = $this->model::findOrFail($id);
-      $item->delete();
-      return response()->noContent();
+      return $item->delete();
    }
 }

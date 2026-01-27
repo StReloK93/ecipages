@@ -1,21 +1,21 @@
-import { useFetch } from "../modules/useFetch";
+import { api } from "../modules/useFetch";
 import { IChange } from "../Interfaces";
 const baseURL = "change";
 
 export default {
-   index(onLoad?: Function) {
-      return useFetch<IChange[]>({ url: `${baseURL}`, onLoad });
+   index() {
+      return api.get<IChange[]>(`${baseURL}`);
    },
-   update(id: number, formData: IChange, onLoad?: Function) {
-      return useFetch<IChange[]>({ url: `${baseURL}/${id}`, method: "put", formData, onLoad });
+   show(id: number) {
+      return api.get<IChange>(`${baseURL}/${id}`);
    },
-   store(formData: IChange, onLoad?: Function) {
-      return useFetch<IChange[]>({ url: `${baseURL}`, method: "post", formData, onLoad });
+   store(formData: IChange) {
+      return api.post<IChange>(`${baseURL}`, formData);
    },
-   destroy(id: number, onLoad?: Function) {
-      return useFetch<boolean>({ url: `${baseURL}/${id}`, method: "delete", onLoad });
+   update(id: number, formData: any) {
+      return api.put<IChange>(`${baseURL}/${id}`, formData);
    },
-   show(id: number, onLoad?: Function) {
-      return useFetch<boolean>({ url: `${baseURL}/${id}`, onLoad });
+   destroy(id: number | undefined) {
+      return api.delete(`${baseURL}/${id}`);
    },
 };

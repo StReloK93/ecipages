@@ -24,9 +24,7 @@ Route::apiResource('change', ChangeController::class);
 Route::apiResource('employes', EmployeController::class);
 Route::apiResource('lavozim', LavozimController::class);
 Route::apiResource('join-employes', LavozimController::class);
-
-
-
-
-Route::get('groups/by/{transport_id}', [GroupController::class, 'getGroupsByTransportId']);
 Route::apiResource('groups', GroupController::class);
+
+
+Route::get('groups/transport/{transport_id}', [GroupController::class, 'byTransport']);

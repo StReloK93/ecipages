@@ -6,7 +6,7 @@ import { definePreset } from "@primeuix/themes";
 import router from "./router";
 import ConfirmationService from "primevue/confirmationservice";
 import Tooltip from "primevue/tooltip";
-
+import ToastService from "primevue/toastservice";
 const MyPreset = definePreset(Aura, {
    semantic: {
       primary: {
@@ -28,6 +28,7 @@ const MyPreset = definePreset(Aura, {
 const app = createApp(App);
 app.directive("tooltip", Tooltip);
 app.use(router);
+app.use(ToastService);
 app.use(PrimeVue, {
    theme: {
       preset: MyPreset,

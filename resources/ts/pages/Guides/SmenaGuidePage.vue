@@ -18,7 +18,7 @@
             header="Smena turi"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
          >
-            <SmenaUpdate :smena_id="editableRow" @close="editDialog = false" :submit="onRowEdit" />
+            <SmenaUpdate :smena_id="editableRow!" @close="editDialog = false" :submit="onRowEdit" />
          </Dialog>
       </main>
       <DataTable v-if="smenalar" size="small" :value="smenalar" editMode="row" dataKey="id">
@@ -56,28 +56,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, Ref } from "vue";
+import { ref, computed, Ref, onMounted } from "vue";
 import SmenaCreate from "@entities/Smena/SmenaCreate.vue";
 import SmenaUpdate from "@entities/Smena/SmenaUpdate.vue";
 import SmenaRepo from "@repositories/SmenaRepo";
 import { ISmena } from "@/Interfaces";
 import { useConfirm } from "primevue/useconfirm";
+import { useFetchDecorator } from "@/modules/useFetch";
 const editableRow: Ref<number | null> = ref(null);
 
 const createDialog: Ref<boolean> = ref(false);
 const editDialog: Ref<boolean> = ref(false);
 const confirm = useConfirm();
 
-const { data: smenalar } = SmenaRepo.index();
+const { data: smenalar, execute } = useFetchDecorator<ISmena[]>(SmenaRepo.index);
 
 async function onRowCreate(formData: ISmena) {
-   await new Promise((resolve, reject) => {
-      SmenaRepo.store(formData, ({ data }: { data: ISmena }) => {
-         resolve(true);
-         smenalar.value?.push(data);
-         createDialog.value = false;
-      });
-   });
+   const { data } = await SmenaRepo.store(formData);
+
+   smenalar.value?.push(data);
+   createDialog.value = false;
 }
 
 function onSelectEditRow(smena_id: number) {
@@ -99,29 +97,28 @@ const onRowDelete = (row: ISmena) => {
          severity: "danger",
       },
       accept: () => {
-         SmenaRepo.destroy(row.id || 0, () => {
-            const index: any = smenalar.value?.findIndex((smena) => smena.id == row.id);
-
-            if (index > -1) {
-               smenalar.value?.splice(index, 1);
-            }
-         });
+         SmenaRepo.destroy(row.id);
+         const index: any = smenalar.value?.findIndex((smena) => smena.id == row.id);
+         if (index > -1) {
+            smenalar.value?.splice(index, 1);
+         }
       },
    });
 };
 
 async function onRowEdit(formData: ISmena) {
-   await new Promise((resolve, reject) => {
-      if (editableRow.value && smenalar.value) {
-         SmenaRepo.update(editableRow.value, formData, (result: any) => {
-            const index: any = smenalar.value?.findIndex((smena) => smena.id == editableRow.value);
-            let current = smenalar.value;
-            if (current && current[index]) current[index].name = result.data.name;
+   if (editableRow.value && smenalar.value) {
+      const result = await SmenaRepo.update(editableRow.value, formData);
 
-            editDialog.value = false;
-            resolve(result);
-         });
-      }
-   });
+      const index: any = smenalar.value?.findIndex((smena) => smena.id == editableRow.value);
+      let current = smenalar.value;
+      if (current && current[index]) current[index].name = result.data.name;
+
+      editDialog.value = false;
+   }
 }
+
+onMounted(() => {
+   execute();
+});
 </script>

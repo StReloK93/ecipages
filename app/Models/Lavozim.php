@@ -9,11 +9,10 @@ class Lavozim extends Model
 {
     use HasFactory;
 
-    protected $with = ['transportType'];
+    // protected $with = ['transportType'];
 
     protected $fillable = [
         'name',
-        'organization_id',
         'transport_type_id',
     ];
     protected $casts = [

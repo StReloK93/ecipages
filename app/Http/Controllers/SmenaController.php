@@ -17,6 +17,6 @@ class SmenaController extends BaseCrudController
             'organization_id' => 1
         ]);
 
-        Smena::create($request->all());
+        return Smena::create($request->all());
     }
 }

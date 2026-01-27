@@ -46,7 +46,6 @@ function useFetchDecorator<T>(fetchFn: any) {
          throw err;
       } finally {
          isLoading.value = false;
-         // Birinchi marta yuklanish tugagandan keyin har doim false bo'ladi
          isFirstLoading.value = false;
       }
    };

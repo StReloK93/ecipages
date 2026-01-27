@@ -31,6 +31,14 @@ export default {
          class: ["mb-4"],
       },
       {
+         component: PrimeInputs["InputNumber"],
+         name: "razryad",
+         placeholder: "Razryad",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
+      {
          component: PrimeInputs["InputText"],
          name: "table",
          placeholder: "Tabel raqami",
@@ -40,10 +48,10 @@ export default {
       },
       {
          component: PrimeInputs["Select"],
-         name: "lavozim_id",
+         name: "transport_list_id",
          placeholder: "Lavozimi",
          generateProps: async function () {
-            const { data } = await api.get("lavozim");
+            const { data } = await api.get("transport-lists");
             this.props = selectOption(data, "name");
          },
          schema: yup.number().required("Majburiy maydon!"),
@@ -57,12 +65,16 @@ export default {
          header: "F.I.Sh",
       },
       {
+         field: "razryad",
+         header: "Razryad",
+      },
+      {
          field: "table",
          header: "Tabel raqami",
       },
       {
-         field: "lavozim.name",
-         header: "Lavozimi",
+         field: "transport_list.name",
+         header: "Qurilma turi",
       },
    ],
 };

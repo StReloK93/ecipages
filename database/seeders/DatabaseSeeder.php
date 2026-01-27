@@ -10,7 +10,7 @@ use App\Models\Transport;
 use App\Models\TransportList;
 use App\Models\Change;
 use App\Models\Lavozim;
-use App\Models\Group;
+use App\Models\Employe;
 use App\Models\Smena;
 class DatabaseSeeder extends Seeder
 {
@@ -34,12 +34,12 @@ class DatabaseSeeder extends Seeder
 
         Lavozim::upsert(
             [
-                ['name' => 'Ekskavator mashinisti', 'transport_type_id' => 2, 'organization_id' => 1],
-                ['name' => 'Ekskavator mashinisti yordamchisi', 'transport_type_id' => 2, 'organization_id' => 1],
-                ['name' => "Burg'ulash uskunasi mashinisti", 'transport_type_id' => 1, 'organization_id' => 1],
-                ['name' => "Burg'ulash uskunasi mashinisti yordamchisi", 'transport_type_id' => 1, 'organization_id' => 1],
+                ['name' => 'Mashinist', 'transport_type_id' => 2],
+                ['name' => 'Mashinist yordamchisi', 'transport_type_id' => 2],
+                ['name' => "Mashinist", 'transport_type_id' => 1],
+                ['name' => "Mashinist yordamchisi", 'transport_type_id' => 1],
             ],
-            ['name', 'transport_type_id', 'organization_id']
+            ['name', 'transport_type_id']
         );
 
 
@@ -99,7 +99,6 @@ class DatabaseSeeder extends Seeder
                 ['transport_list_id' => 4, 'smena_id' => 1, 'garage_number' => 11, 'start_smena_day' => '2026-01-01 00:00:00'],
                 ['transport_list_id' => 5, 'smena_id' => 1, 'garage_number' => 12, 'start_smena_day' => '2026-01-01 00:00:00'],
 
-                ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 23, 'start_smena_day' => '2026-01-01 00:00:00'],
                 ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 24, 'start_smena_day' => '2026-01-01 00:00:00'],
                 ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 25, 'start_smena_day' => '2026-01-01 00:00:00'],
                 ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 26, 'start_smena_day' => '2026-01-01 00:00:00'],
@@ -112,7 +111,9 @@ class DatabaseSeeder extends Seeder
 
 
 
-
+        $this->call([
+            EmployeSeeder::class,
+        ]);
 
     }
 }

@@ -12,11 +12,22 @@ class TransportList extends Model
         'name',
         'transport_type_id',
     ];
-    protected $with = ['transport_type'];
+    protected $with = ['transportType'];
 
-    public function transport_type()
+    public function transportType()
     {
         return $this->belongsTo(TransportType::class);
+    }
+
+
+    public function transports()
+    {
+        return $this->hasMany(Transport::class);
+    }
+
+    public function employes()
+    {
+        return $this->hasMany(Employe::class);
     }
 
     protected $casts = [

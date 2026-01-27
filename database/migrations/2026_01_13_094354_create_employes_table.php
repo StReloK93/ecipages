@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('table');
-            $table->bigInteger('lavozim_id');
-            $table->bigInteger('organization_id');
+            $table->bigInteger('transport_list_id');
+            $table->bigInteger('razryad');
             $table->timestamps();
         });
     }

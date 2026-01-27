@@ -27,7 +27,7 @@ export default {
          name: "transport_list_id",
          placeholder: "Transport turi",
          generateProps: async function () {
-            const { data } = await api.get("transport-types");
+            const { data } = await api.get("transport-lists");
             this.props = selectOption(data, "name");
          },
          schema: yup.number().required("Majburiy maydon!"),

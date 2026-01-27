@@ -23,14 +23,6 @@ export default {
 
    inputs: [
       {
-         component: PrimeInputs["InputText"],
-         name: "name",
-         placeholder: "Lavozim nomi",
-         props: globalProps,
-         schema: yup.string().trim().required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-      {
          component: PrimeInputs["Select"],
          name: "transport_type_id",
          placeholder: "Transport turi",
@@ -41,16 +33,24 @@ export default {
          schema: yup.number().required("Majburiy maydon!"),
          class: ["mb-4"],
       },
+      {
+         component: PrimeInputs["InputText"],
+         name: "name",
+         placeholder: "Lavozim nomi",
+         props: globalProps,
+         schema: yup.string().trim().required("Majburiy maydon!"),
+         class: ["mb-4"],
+      },
    ] as InputConfig[],
 
    columns: [
       {
-         field: "name",
-         header: "F.I.Sh",
-      },
-      {
          field: "transport_type.name",
          header: "Transport turi",
+      },
+      {
+         field: "name",
+         header: "F.I.Sh",
       },
    ],
 };

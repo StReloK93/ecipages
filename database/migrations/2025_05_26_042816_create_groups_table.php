@@ -12,12 +12,13 @@ return new class extends Migration {
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->integer('transport_id');
             $table->integer('employe_id');
             $table->integer('change_id');
-            $table->integer('transport_id');
             $table->integer('lavozim_id');
-            $table->date('active_from')->default(now());
             $table->timestamps();
+
+            $table->unique(['employe_id', 'transport_id', 'change_id']);
         });
     }
 

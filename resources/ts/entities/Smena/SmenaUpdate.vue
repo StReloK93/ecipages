@@ -18,7 +18,13 @@
                      </td>
                      <td class="border border-white bg-gray-50 w-7 h-7 text-center" v-for="n in 30">
                         <div class="h-full w-full flex items-center justify-center border border-gray-200">
-                           <MiniSelect v-model="$field.value.first[n]" name="name" value="id" :data="smenas" />
+                           <MiniSelect
+                              v-if="smenas"
+                              v-model="$field.value.first[n]"
+                              name="name"
+                              value="id"
+                              :data="smenas"
+                           />
                         </div>
                      </td>
                   </tr>
@@ -28,7 +34,13 @@
                      </td>
                      <td class="border border-white bg-gray-50 w-7 h-7 text-center" v-for="n in 30">
                         <div class="h-full w-full flex items-center justify-center border border-gray-200">
-                           <MiniSelect v-model="$field.value.second[n]" name="name" value="id" :data="smenas" />
+                           <MiniSelect
+                              v-if="smenas"
+                              v-model="$field.value.second[n]"
+                              name="name"
+                              value="id"
+                              :data="smenas"
+                           />
                         </div>
                      </td>
                   </tr>
@@ -54,16 +66,14 @@ import { IChange, ISmena } from "@/Interfaces";
 import { reactive, ref, Ref } from "vue";
 import BaseForm from "@components/OldBaseForm.vue";
 import { onMounted } from "vue";
+import { useFetchDecorator } from "@/modules/useFetch";
 const form: Ref<any> = ref(null);
 const props = defineProps<{
    submit: (values: any) => Promise<void>;
-   smena_id: number | null;
+   smena_id: number;
 }>();
 
-const smenas: Ref<any[]> = ref([]);
-ChangeRepo.index(({ data }: { data: IChange[] }) => {
-   smenas.value = data;
-});
+const { data: smenas, execute } = useFetchDecorator<IChange[]>(ChangeRepo.index);
 
 const initialValues: any = reactive({
    name: "",
@@ -82,14 +92,12 @@ const resolver = ({ values }: { values: any }) => {
    return { values, errors };
 };
 
-onMounted(() => {
-   if (props.smena_id) {
-      SmenaRepo.show(props.smena_id, ({ data }: { data: any }) => {
-         if (form.value) {
-            form.value.instance.setFieldValue("name", data.name);
-            form.value.instance.setFieldValue("formula", data.formula);
-         }
-      });
+onMounted(async () => {
+   await execute();
+   const { data } = await SmenaRepo.show(props.smena_id);
+   if (form.value) {
+      form.value.instance.setFieldValue("name", data.name);
+      form.value.instance.setFieldValue("formula", data.formula);
    }
 });
 </script>

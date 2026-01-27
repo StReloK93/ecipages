@@ -23,7 +23,10 @@ export interface ITransport {
 export interface ITransportList {
    name: string;
    short_name: string;
+   employes: IEmployee[];
    transport_type_id: number;
+
+   transports: ITransport[];
    transport_type: ITransportType;
    id?: number;
 }
@@ -32,7 +35,7 @@ export interface ITransportType {
    name: string;
    short_name: string;
    organization_id: number;
-
+   lavozims: ILavozim[];
    id?: number;
 }
 
@@ -56,14 +59,14 @@ export interface ILavozim {
 
 export interface IGroup {
    id?: number;
-   tabel: string;
+   employe_id: number;
+   employe: number;
    change_id: number;
    change: IChange;
    transport_id: number;
    transport?: ITransport;
    lavozim_id: number;
    lavozim: ILavozim;
-   active_from: string;
 }
 
 export interface ISmena {
@@ -92,9 +95,10 @@ export interface InputConfig {
 
 export interface IEmployee {
    name: string;
-   lavozim_id: number;
-   organization_id: number;
    table: string;
+   razryad: string;
+   transport_list_id: number;
+   transport_list: ITransportList;
    id?: number;
 }
 

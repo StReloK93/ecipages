@@ -13,10 +13,12 @@ return new class extends Migration {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->integer('transport_list_id');
-            $table->integer('garage_number');
+            $table->string('garage_number');
             $table->integer('smena_id')->nullable();
             $table->date('start_smena_day')->nullable();
             $table->timestamps();
+
+            $table->unique(['transport_list_id', 'garage_number']);
         });
     }
 

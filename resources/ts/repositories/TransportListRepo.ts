@@ -8,7 +8,7 @@ export default {
    index() {
       return api.get<ITransportList[]>(`${baseURL}`);
    },
-   byTransportType(transport_type_id: number, organization_id: number) {
+   byTransportType(transport_type_id: number) {
       return api.get<ITransportList[]>(`${baseURL}/by/transport-type/${transport_type_id}`);
    },
    show(id: number) {

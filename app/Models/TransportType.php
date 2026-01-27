@@ -13,4 +13,12 @@ class TransportType extends Model
         'name',
         'organization_id',
     ];
+
+    protected $with = ['lavozims'];
+
+
+    public function lavozims()
+    {
+        return $this->hasMany(Lavozim::class);
+    }
 }
