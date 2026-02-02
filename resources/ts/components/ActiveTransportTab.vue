@@ -1,5 +1,5 @@
 <template>
-   <main class="flex flex-grow">
+   <main class="flex flex-grow w-full">
       <nav class="flex flex-col gap-0.5 items-end py-8 min-w-40">
          <template v-for="list in transportLists">
             <TabButton
@@ -14,7 +14,7 @@
          </template>
       </nav>
       <aside
-         class="p-8 flex-grow bg-gray-50/80 dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-600 rounded-4xl"
+         class="p-8 flex-grow dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-600 rounded-4xl min-h-154"
       >
          <DragBlock
             class="mb-4"

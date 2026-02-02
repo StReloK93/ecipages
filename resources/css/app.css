@@ -12,3 +12,14 @@
    --p-form-field-sm-padding-y: 4px !important;
    --p-form-field-sm-padding-x: 8px !important;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+   position: absolute;
+   transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+   opacity: 0;
+}

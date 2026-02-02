@@ -3,23 +3,44 @@
       <div class="flex gap-5">
          <div class="w-1/3 rounded-xl h-fit">
             <div class="flex flex-col gap-2">
+               <Skeleton
+                  v-if="groupLavozims == null"
+                  v-for="value in 6"
+                  height="42px"
+                  width="100%"
+                  border-radius="24px"
+               />
                <div
+                  v-else
                   v-for="user in props.list.employes"
                   :key="user.id"
                   draggable="true"
                   @dragstart="onDragStart($event, user)"
                   class="rounded-3xl py-2 px-4 bg-white border border-surface-100 cursor-grab active:cursor-grabbing hover:bg-blue-50 hover:border-blue-300 transition-all flex items-center gap-3"
                >
-                  <span class="font-medium text-gray-700">{{ user.name }} {{ user.razryad }}</span>
+                  <div class="font-medium text-gray-700 leading-4">
+                     <span class="block">
+                        {{ user.name }}
+                     </span>
+                     <span class="text-slate-500 text-sm"> Razryad: {{ user.razryad }} </span>
+                  </div>
                   <i class="pi pi-clone ml-auto text-sky-600 text-sm mr-2"></i>
                </div>
             </div>
          </div>
          <div class="w-2/3 grid grid-cols-1 gap-4">
+            <Skeleton
+               v-if="groupLavozims == null"
+               border-radius="12px"
+               v-for="value in 2"
+               height="208px"
+               width="100%"
+            />
             <div
+               v-else
                v-for="lavozim in groupLavozims"
                :key="lavozim.id"
-               class="min-h-[150px] border border-surface-100 rounded-xl flex flex-col bg-white"
+               class="min-h-52 border border-surface-100 rounded-xl flex flex-col bg-white"
             >
                <div class="flex justify-between items-center border-b border-gray-100 py-3 px-4">
                   <span class="font-semibold text-gray-600 text-sm">{{ lavozim.name }}</span>
@@ -33,18 +54,22 @@
                      :class="{ 'bg-surface-50': hoveredBox == lavozim[change_id] }"
                      class="basis-0 flex-grow border-l first:border-0 border-surface-100 h-full relative transition-all"
                   >
-                     <span
-                        class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 inline-flex items-center justify-center text-sm absolute top-2 right-2"
-                     >
-                        {{ findChange(change_id) }}
+                     <span class="absolute top-2 right-2">
+                        <Skeleton v-if="loadingBox == lavozim[change_id]" shape="circle" height="24px" width="24px" />
+                        <span
+                           v-else
+                           class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 inline-flex items-center justify-center text-sm"
+                        >
+                           {{ findChange(change_id) }}
+                        </span>
                      </span>
-                     <div v-if="lavozim[change_id].length > 0" class="flex flex-wrap gap-2 p-3 items-start">
+                     <div class="flex flex-wrap gap-2 p-3 items-start animate-pop-in">
                         <Chip
                            v-for="(group, index) in lavozim[change_id]"
                            @remove="removeUserFromBox(group.id, lavozim[change_id], index)"
                            :key="group"
                            :label="group.employe.name"
-                           class="text-xs!"
+                           class="text-xs! animate-pop-in"
                            removable
                         />
                      </div>
@@ -63,6 +88,7 @@ import { ITransportList, IEmployee, ILavozim, ITransport, IChange, IGroup } from
 import { onMounted, ref } from "vue";
 import { useFetchDecorator } from "@/modules/useFetch";
 
+const loadingBox = ref(null);
 const toast = useToast();
 const hoveredBox = ref();
 const props = defineProps<{
@@ -82,7 +108,7 @@ function findChange(id: number) {
 const uniqueValuesSet = new Set<number>(Object.values(props.transport.smena.formula.first));
 const draggingItem = ref<IEmployee | null>(null);
 
-const groupLavozims = ref();
+const groupLavozims = ref<null | any[]>(null);
 
 const onDragStart = (event: DragEvent, user: IEmployee) => {
    draggingItem.value = user;
@@ -108,23 +134,31 @@ const onDrop = async (event: DragEvent, lavozim: any, changeId: number) => {
    };
 
    if (draggingItem.value) {
-      const alreadyExists = lavozim[changeId].some((user: { id: number }) => user.id === draggingItem.value?.id);
+      const alreadyExists = lavozim[changeId].some((user: any) => user.employe.id === draggingItem.value?.id);
 
-      if (alreadyExists) return;
-
-      console.log(draggingItem.value.name);
-
+      if (alreadyExists) {
+         return toast.add({
+            severity: "warn",
+            summary: `Takrorlamang!`,
+            detail: `${draggingItem.value?.name} bu smenada  mavjud.`,
+            life: 5000,
+         });
+      }
+      loadingBox.value = lavozim[changeId];
       await GroupRepo.store(formData)
          .then((res) => {
             lavozim[changeId].push(res.data);
          })
-         .catch((err) => {
+         .catch(() => {
             toast.add({
                severity: "error",
                summary: `${draggingItem.value?.name} bu smenada  mavjud.`,
                detail: "Bir kishi bir smenada ikki lavozimda ishlay olmaydi!",
                life: 5000,
             });
+         })
+         .finally(() => {
+            loadingBox.value = null;
          });
 
       draggingItem.value = null;
@@ -133,7 +167,7 @@ const onDrop = async (event: DragEvent, lavozim: any, changeId: number) => {
 
 const removeUserFromBox = (group_id: number, box: any, index: number | string) => {
    GroupRepo.destroy(group_id).then((result) => {
-      box[index].splice(index, 1);
+      box.splice(index, 1);
    });
 };
 

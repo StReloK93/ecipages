@@ -108,3 +108,11 @@ export interface ILavozim {
    transport_type: ITransportType;
    id?: number;
 }
+
+export interface IUser {
+   organization_id: number;
+   name: string;
+   login: string;
+   role: number;
+   phone: string;
+}

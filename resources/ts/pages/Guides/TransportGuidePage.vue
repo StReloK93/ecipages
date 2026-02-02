@@ -1,13 +1,6 @@
 <template>
    <section>
-      <Dialog
-         v-if="selectTransport"
-         v-model:visible="visibleViewer"
-         maximizable
-         modal
-         header="Smena turi"
-         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
-      >
+      <Dialog v-if="selectTransport" v-model:visible="visibleViewer" modal header="Smena turi" class="w-280">
          <SmenaViewer :transport="selectTransport" />
       </Dialog>
       <UseCrudPage :entity-repo="TransportRepo">

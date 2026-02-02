@@ -1,65 +1,68 @@
 <template>
-   <div class="h-full" v-if="props.transport.smena && props.transport.start_smena_day">
-      <nav class="mb-4 text-right">
-         <DatePicker
-            v-model="date"
-            @update:model-value="selectMonth"
-            view="month"
-            class="p-0!"
-            dateFormat="yy-mm"
-            size="small"
-         />
-      </nav>
-      <main class="bg-white p-5 rounded-2xl border border-surface-100">
-         <table class="w-full table-fixed">
-            <tbody>
-               <tr>
-                  <td class="aspect-square text-center"></td>
-                  <td
-                     class="aspect-square text-center content-center"
-                     :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
-                     v-for="day in month"
-                  >
-                     <span class="text-sm leading-1">
-                        {{ day.date.getDate() }}
-                     </span>
-                  </td>
-               </tr>
-               <tr>
-                  <td class="text-center">
-                     <span class="p-button-icon pi pi-sun text-orange-400"></span>
-                  </td>
-                  <td
-                     class="text-center border-b border-b-surface-200 hover:bg-surface-100 cursor-pointer"
-                     :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
-                     v-for="day in month"
-                  >
-                     <div class="aspect-square w-full flex items-center justify-center border border-transparent">
-                        {{ getChangeByID(props.transport.smena.formula.first[day.number])?.name }}
-                     </div>
-                  </td>
-               </tr>
-               <tr>
-                  <td class="text-center">
-                     <span class="p-button-icon pi pi-moon !text-sm text-sky-500"></span>
-                  </td>
-                  <td
-                     class="text-center hover:bg-surface-100 cursor-pointer"
-                     :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
-                     v-for="day in month"
-                  >
-                     <div class="aspect-square w-full flex items-center justify-center border-transparent">
-                        {{ getChangeByID(props.transport.smena.formula.second[day.number])?.name }}
-                     </div>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-      </main>
-   </div>
-   <div v-else class="pt-2">
-      <Message severity="warn">Smena turi va Smena birinchi kunini tanlash shart</Message>
-   </div>
+   <Skeleton borderRadius="16px" v-if="isFirstLoading" height="217px" />
+   <section v-else>
+      <div class="h-full" v-if="props.transport.smena && props.transport.start_smena_day">
+         <nav class="mb-4 text-right">
+            <DatePicker
+               v-model="date"
+               @update:model-value="selectMonth"
+               view="month"
+               class="p-0!"
+               dateFormat="yy-mm"
+               size="small"
+            />
+         </nav>
+         <main class="bg-white p-5 rounded-2xl border border-surface-100">
+            <table class="w-full table-fixed">
+               <tbody>
+                  <tr>
+                     <td class="aspect-square text-center"></td>
+                     <td
+                        class="aspect-square text-center content-center"
+                        :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
+                        v-for="day in month"
+                     >
+                        <span class="text-sm leading-1">
+                           {{ day.date.getDate() }}
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td class="text-center">
+                        <span class="p-button-icon pi pi-sun text-orange-400"></span>
+                     </td>
+                     <td
+                        class="text-center border-b border-b-surface-200 hover:bg-surface-100 cursor-pointer"
+                        :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
+                        v-for="day in month"
+                     >
+                        <div class="aspect-square w-full flex items-center justify-center border border-transparent">
+                           {{ getChangeByID(props.transport.smena.formula.first[day.number])?.name }}
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td class="text-center">
+                        <span class="p-button-icon pi pi-moon !text-sm text-sky-500"></span>
+                     </td>
+                     <td
+                        class="text-center hover:bg-surface-100 cursor-pointer"
+                        :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
+                        v-for="day in month"
+                     >
+                        <div class="aspect-square w-full flex items-center justify-center border-transparent">
+                           {{ getChangeByID(props.transport.smena.formula.second[day.number])?.name }}
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </main>
+      </div>
+      <div v-else class="pt-2">
+         <Message severity="warn">Smena turi va Smena birinchi kunini tanlash shart</Message>
+      </div>
+   </section>
 </template>
 
 <script setup lang="ts">
@@ -80,7 +83,7 @@ function getChangeByID(id: number) {
    else return null;
 }
 
-const { data: changes, execute } = useFetchDecorator<IChange[]>(ChangeRepo.index);
+const { data: changes, execute, isFirstLoading } = useFetchDecorator<IChange[]>(ChangeRepo.index);
 
 function selectMonth(value: any) {
    month.value = getDaysOfMonth(value);

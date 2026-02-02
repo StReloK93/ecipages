@@ -7,15 +7,14 @@
             </TabButton>
          </template>
       </nav>
-      <template v-for="type in organization?.transport_types">
-         <ActiveTransportTab v-if="type.id == currentTab" :transport_type="type" />
-      </template>
+      <main class="relative">
+         <template v-for="type in organization?.transport_types">
+            <Transition name="fade" mode="out-in">
+               <ActiveTransportTab v-if="type.id === currentTab" :key="type.id" :transport_type="type" />
+            </Transition>
+         </template>
+      </main>
    </section>
-   <main v-else class="grid-rows-[28px_28px_1fr] grid gap-0.5 p-8">
-      <Skeleton border-radius="2px" width="260px" height="28px"></Skeleton>
-      <Skeleton border-radius="2px" height="28px"></Skeleton>
-      <Skeleton border-radius="2px" height="100%"></Skeleton>
-   </main>
 </template>
 
 <script setup lang="ts">
@@ -25,8 +24,11 @@ import TabButton from "../components/TabButton.vue";
 import { onMounted, ref, Ref, watch } from "vue";
 import { useFetchDecorator } from "@/modules/useFetch";
 import { IOrganization } from "@/Interfaces";
+import { useUserStore } from "@/stories/UserStore";
 const props = defineProps(["id"]);
 const currentTab: Ref<number | null> = ref(null);
+
+const AuthStore = useUserStore();
 
 const {
    execute: executeTransport,
@@ -36,11 +38,15 @@ const {
 
 watch(
    () => props.id,
-   (current) => executeTransport({ id: current })
+   (current) => executeTransport({ id: current }),
 );
 onMounted(async () => {
-   // await executeChange();
-   await executeTransport({ id: props.id });
+   if (AuthStore.isAdmin) {
+      await executeTransport({ id: props.id });
+   } else {
+      await executeTransport({ id: AuthStore.user?.organization_id });
+   }
+
    if (organization.value && organization.value.transport_types[0]) {
       currentTab.value = organization.value.transport_types[0].id!;
    }

@@ -20,7 +20,7 @@ const props = withDefaults(
    }>(),
    {
       direction: "bottom",
-   }
+   },
 );
 
 type HttpMethod = "left" | "right" | "top" | "bottom";
@@ -43,7 +43,7 @@ const directions = {
    },
    bottom: {
       border: "border-b hover:border-b-gray-500 dark:hover:border-b-gray-300",
-      active: "!border-b-gray-500 dark:!border-b-gray-300",
+      active: "!border-b-gray-600 dark:!border-b-gray-300",
       different: "top-px",
    },
 };

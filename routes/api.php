@@ -10,6 +10,18 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SmenaController;
 use App\Http\Controllers\ChangeController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\AuthController;
+
+
+Route::post('login', [AuthController::class, 'login']);
+
+
+Route::controller(AuthController::class)
+   ->middleware('auth:sanctum')
+   ->group(function () {
+      Route::get('user', 'user');
+      Route::post('logout', 'logout');
+   });
 
 
 Route::post('organizations/transports', [OrganizationController::class, 'transports']);

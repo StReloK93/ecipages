@@ -11,11 +11,30 @@ use App\Models\TransportList;
 use App\Models\Change;
 use App\Models\Lavozim;
 use App\Models\Employe;
+use App\Models\User;
 use App\Models\Smena;
+use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+
+        User::create([
+            'name' => 'Admin',
+            'login' => 'admin',
+            'password' => Hash::make('123456'),
+            'role' => 1,
+            'organization_id' => 0,
+        ]);
+
+        User::create([
+            'name' => 'Admin',
+            'login' => 'sharqiy',
+            'password' => Hash::make('zzzz1111*'),
+            'role' => 0,
+            'organization_id' => 1,
+        ]);
+
 
         Organization::upsert(
             [
@@ -118,49 +137,3 @@ class DatabaseSeeder extends Seeder
     }
 }
 
-
-
-// Group::upsert(
-//     [
-//         ['employe_id' => '11111', 'change_id' => 1, 'transport_id' => 1, 'lavozim_id' => 1],
-//         ['employe_id' => '11112', 'change_id' => 1, 'transport_id' => 1, 'lavozim_id' => 2],
-
-//         ['employe_id' => '11113', 'change_id' => 2, 'transport_id' => 1, 'lavozim_id' => 1],
-//         ['employe_id' => '11114', 'change_id' => 2, 'transport_id' => 1, 'lavozim_id' => 2],
-
-//         ['employe_id' => '11115', 'change_id' => 3, 'transport_id' => 1, 'lavozim_id' => 1],
-//         ['employe_id' => '11116', 'change_id' => 3, 'transport_id' => 1, 'lavozim_id' => 2],
-
-//         ['employe_id' => '11117', 'change_id' => 4, 'transport_id' => 1, 'lavozim_id' => 1],
-//         ['employe_id' => '11118', 'change_id' => 4, 'transport_id' => 1, 'lavozim_id' => 2],
-
-
-//         ['employe_id' => '22221', 'change_id' => 1, 'transport_id' => 2, 'lavozim_id' => 1],
-//         ['employe_id' => '22222', 'change_id' => 1, 'transport_id' => 2, 'lavozim_id' => 2],
-
-//         ['employe_id' => '22223', 'change_id' => 2, 'transport_id' => 2, 'lavozim_id' => 1],
-//         ['employe_id' => '22224', 'change_id' => 2, 'transport_id' => 2, 'lavozim_id' => 2],
-
-//         ['employe_id' => '22225', 'change_id' => 3, 'transport_id' => 2, 'lavozim_id' => 1],
-//         ['employe_id' => '22226', 'change_id' => 3, 'transport_id' => 2, 'lavozim_id' => 2],
-
-//         ['employe_id' => '22227', 'change_id' => 4, 'transport_id' => 2, 'lavozim_id' => 1],
-//         ['employe_id' => '22228', 'change_id' => 4, 'transport_id' => 2, 'lavozim_id' => 2],
-
-//         ['employe_id' => '33331', 'change_id' => 1, 'transport_id' => 3, 'lavozim_id' => 1],
-//         ['employe_id' => '33332', 'change_id' => 1, 'transport_id' => 3, 'lavozim_id' => 2],
-
-//         ['employe_id' => '33333', 'change_id' => 2, 'transport_id' => 3, 'lavozim_id' => 1],
-//         ['employe_id' => '33334', 'change_id' => 2, 'transport_id' => 3, 'lavozim_id' => 2],
-
-//         ['employe_id' => '33335', 'change_id' => 3, 'transport_id' => 3, 'lavozim_id' => 1],
-//         ['employe_id' => '33336', 'change_id' => 3, 'transport_id' => 3, 'lavozim_id' => 2],
-
-//         ['employe_id' => '33337', 'change_id' => 4, 'transport_id' => 3, 'lavozim_id' => 1],
-//         ['employe_id' => '33338', 'change_id' => 4, 'transport_id' => 3, 'lavozim_id' => 2],
-
-//         ['employe_id' => '50000', 'change_id' => 4, 'transport_id' => 5, 'lavozim_id' => 1],
-//         ['employe_id' => '50001', 'change_id' => 4, 'transport_id' => 5, 'lavozim_id' => 2],
-//     ],
-//     ['employe_id', 'change_id', 'transport_id', 'lavozim_id']
-// );

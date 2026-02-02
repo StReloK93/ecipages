@@ -23,7 +23,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const links = [
-   { name: "guide-organization", text: "Bo'linmalar" },
+   // { name: "guide-organization", text: "Bo'linmalar" },
    { name: "guide-transport-type", text: "Qurilma turlari" },
    { name: "guide-lavozim", text: "Lavozimlar" },
    { name: "guide-transport-list", text: "Qurilma modellari" },

@@ -7,6 +7,7 @@ import router from "./router";
 import ConfirmationService from "primevue/confirmationservice";
 import Tooltip from "primevue/tooltip";
 import ToastService from "primevue/toastservice";
+import { createPinia } from "pinia";
 const MyPreset = definePreset(Aura, {
    semantic: {
       primary: {
@@ -27,6 +28,7 @@ const MyPreset = definePreset(Aura, {
 
 const app = createApp(App);
 app.directive("tooltip", Tooltip);
+app.use(createPinia());
 app.use(router);
 app.use(ToastService);
 app.use(PrimeVue, {
