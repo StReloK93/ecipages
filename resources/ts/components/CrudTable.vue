@@ -4,6 +4,11 @@
          <Button icon="pi pi-plus" label="Qo'shish" size="small" severity="contrast" @click="$emit('create')" />
       </main>
       <DataTable size="small" :value="props.data" dataKey="id">
+         <Column style="width: 50px" header="#">
+            <template #body="{ data, index }">
+               {{ index + 1 }}
+            </template>
+         </Column>
          <Column v-for="column in props.columns" :key="column.field" :field="column.field" :header="column.header" />
          <slot name="column"></slot>
          <Column style="width: 50px">

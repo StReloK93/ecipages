@@ -109,31 +109,32 @@ class DatabaseSeeder extends Seeder
 
 
 
-        Transport::upsert(
-            [
-                ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 22, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 44, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 23, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 3, 'smena_id' => 1, 'garage_number' => 41, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 4, 'smena_id' => 1, 'garage_number' => 11, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 5, 'smena_id' => 1, 'garage_number' => 12, 'start_smena_day' => '2026-01-01 00:00:00'],
-
-                ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 24, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 25, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 26, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 4, 'smena_id' => 1, 'garage_number' => 27, 'start_smena_day' => '2026-01-01 00:00:00'],
-                ['transport_list_id' => 6, 'smena_id' => 1, 'garage_number' => 28, 'start_smena_day' => '2026-01-01 00:00:00'],
-            ],
-            ['transport_list_id', 'garage_number']
-        );
-
-
-
-
-        $this->call([
-            EmployeSeeder::class,
-        ]);
 
     }
 }
 
+
+// Transport::upsert(
+//     [
+//         ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 22, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 44, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 23, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 3, 'smena_id' => 1, 'garage_number' => 41, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 4, 'smena_id' => 1, 'garage_number' => 11, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 5, 'smena_id' => 1, 'garage_number' => 12, 'start_smena_day' => '2026-01-01 00:00:00'],
+
+//         ['transport_list_id' => 2, 'smena_id' => 1, 'garage_number' => 24, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 25, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 1, 'smena_id' => 1, 'garage_number' => 26, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 4, 'smena_id' => 1, 'garage_number' => 27, 'start_smena_day' => '2026-01-01 00:00:00'],
+//         ['transport_list_id' => 6, 'smena_id' => 1, 'garage_number' => 28, 'start_smena_day' => '2026-01-01 00:00:00'],
+//     ],
+//     ['transport_list_id', 'garage_number']
+// );
+
+
+
+
+// $this->call([
+//     EmployeSeeder::class,
+// ]);

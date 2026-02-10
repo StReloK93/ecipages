@@ -1,34 +1,10 @@
 <template>
    <div class="font-sans">
       <div class="flex gap-5">
-         <div class="w-1/3 rounded-xl h-fit">
-            <div class="flex flex-col gap-2">
-               <Skeleton
-                  v-if="groupLavozims == null"
-                  v-for="value in 6"
-                  height="42px"
-                  width="100%"
-                  border-radius="24px"
-               />
-               <div
-                  v-else
-                  v-for="user in props.list.employes"
-                  :key="user.id"
-                  draggable="true"
-                  @dragstart="onDragStart($event, user)"
-                  class="rounded-3xl py-2 px-4 bg-white border border-surface-100 cursor-grab active:cursor-grabbing hover:bg-blue-50 hover:border-blue-300 transition-all flex items-center gap-3"
-               >
-                  <div class="font-medium text-gray-700 leading-4">
-                     <span class="block">
-                        {{ user.name }}
-                     </span>
-                     <span class="text-slate-500 text-sm"> Razryad: {{ user.razryad }} </span>
-                  </div>
-                  <i class="pi pi-clone ml-auto text-sky-600 text-sm mr-2"></i>
-               </div>
-            </div>
+         <div class="w-1/4 rounded-xl h-fit">
+            <DragBlockUser :groupLavozims="groupLavozims!" :list="props.list" @dragstart="onDragStart" />
          </div>
-         <div class="w-2/3 grid grid-cols-1 gap-4">
+         <div class="w-3/4 grid grid-cols-1 gap-4">
             <Skeleton
                v-if="groupLavozims == null"
                border-radius="12px"
@@ -82,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import DragBlockUser from "./DragBlockUser.vue";
 import { useToast } from "primevue/usetoast";
 import GroupRepo from "@/repositories/GroupRepo";
 import { ITransportList, IEmployee, ILavozim, ITransport, IChange, IGroup } from "@/Interfaces";

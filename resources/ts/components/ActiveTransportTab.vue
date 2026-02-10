@@ -9,12 +9,12 @@
                @click="onSelectTransport(transport, list)"
                :active="currentTransport?.id == transport.id"
             >
-               {{ transport.garage_number }} {{ list.name }}
+               {{ transport.garage_number }} - {{ list.name }}
             </TabButton>
          </template>
       </nav>
       <aside
-         class="p-8 flex-grow dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-600 rounded-4xl min-h-154"
+         class="p-8 flex-grow bg-zinc-50 dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-600 rounded-4xl min-h-154"
       >
          <DragBlock
             class="mb-4"
@@ -47,6 +47,7 @@ const currentTransport: Ref<ITransport | null> = ref(null);
 const currentList: Ref<ITransportList | null> = ref(null);
 
 const { execute: executeChange, data: changes } = useFetchDecorator<IChange[]>(ChangeRepo.index);
+
 async function onSelectTransport(transport: ITransport, list: ITransportList) {
    currentList.value = null;
    currentTransport.value = null;
@@ -60,6 +61,18 @@ onMounted(async () => {
    const { data: lists } = await TransportListRepo.byTransportType(props.transport_type.id!);
    await executeChange();
    transportLists.value = lists;
-   if (lists.length > 0 && lists[0].transports[0]) onSelectTransport(lists[0].transports[0], lists[0]);
+
+   let firstTransport = null;
+   let firstList = null;
+
+   for (const list of lists) {
+      if (list.transports.length > 0) {
+         firstTransport = list.transports[0];
+         firstList = list;
+         break; // <-- shu yerda to‘xtaydi
+      }
+   }
+
+   if (firstList && firstTransport) onSelectTransport(firstTransport, firstList);
 });
 </script>

@@ -1,0 +1,1 @@
+import{y as t}from"./app-th9q0GcE.js";const r="change",s={index(){return t.get(`${r}`)},show(e){return t.get(`${r}/${e}`)},store(e){return t.post(`${r}`,e)},update(e,n){return t.put(`${r}/${e}`,n)},destroy(e){return t.delete(`${r}/${e}`)}};export{s as C};
