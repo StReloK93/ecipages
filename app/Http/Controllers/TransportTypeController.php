@@ -11,7 +11,7 @@ class TransportTypeController extends BaseCrudController
 
     public function index(Request $request)
     {
-        $organization_id = 1;
+        $organization_id = $request->user()->organization_id;
         return TransportType::where('organization_id', $organization_id)->get();
     }
 

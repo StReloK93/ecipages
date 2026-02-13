@@ -19,24 +19,29 @@ Route::post('login', [AuthController::class, 'login']);
 Route::controller(AuthController::class)
    ->middleware('auth:sanctum')
    ->group(function () {
+
+
       Route::get('user', 'user');
       Route::post('logout', 'logout');
+
+      Route::post('organizations/transports', [OrganizationController::class, 'transports']);
+      Route::get('transport-lists/by/transport-type/{transportTypeId}', [TransportListController::class, 'byTransportType']);
+
+      Route::apiResource('organizations', OrganizationController::class);
+      Route::apiResource('transports', TransportController::class);
+      Route::apiResource('transport-types', TransportTypeController::class);
+      Route::apiResource('transport-lists', TransportListController::class);
+      Route::apiResource('smena', SmenaController::class);
+      Route::apiResource('change', ChangeController::class);
+      Route::apiResource('employes', EmployeController::class);
+      Route::apiResource('lavozim', LavozimController::class);
+      Route::apiResource('join-employes', LavozimController::class);
+      Route::apiResource('groups', GroupController::class);
+
+
+      Route::get('groups/transport/{transport_id}', [GroupController::class, 'byTransport']);
+
+
    });
 
 
-Route::post('organizations/transports', [OrganizationController::class, 'transports']);
-Route::get('transport-lists/by/transport-type/{transportTypeId}', [TransportListController::class, 'byTransportType']);
-
-Route::apiResource('organizations', OrganizationController::class);
-Route::apiResource('transports', TransportController::class);
-Route::apiResource('transport-types', TransportTypeController::class);
-Route::apiResource('transport-lists', TransportListController::class);
-Route::apiResource('smena', SmenaController::class);
-Route::apiResource('change', ChangeController::class);
-Route::apiResource('employes', EmployeController::class);
-Route::apiResource('lavozim', LavozimController::class);
-Route::apiResource('join-employes', LavozimController::class);
-Route::apiResource('groups', GroupController::class);
-
-
-Route::get('groups/transport/{transport_id}', [GroupController::class, 'byTransport']);

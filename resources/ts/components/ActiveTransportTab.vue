@@ -1,6 +1,6 @@
 <template>
    <main class="flex flex-grow w-full">
-      <nav class="flex flex-col gap-0.5 items-end py-8 min-w-40">
+      <nav class="flex flex-col gap-0.5 items-end py-8 min-w-44">
          <template v-for="list in transportLists">
             <TabButton
                v-for="transport in list.transports"
@@ -76,3 +76,4 @@ onMounted(async () => {
    if (firstList && firstTransport) onSelectTransport(firstTransport, firstList);
 });
 </script>
+<!-- 5974523 -->

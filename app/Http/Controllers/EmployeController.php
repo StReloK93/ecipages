@@ -10,7 +10,7 @@ class EmployeController extends BaseCrudController
 
     public function index(Request $request)
     {
-        $organization_id = 1;
+        $organization_id = $request->user()->organization_id;
         return Employe::whereHas('transport_list.transportType', function ($query) use ($organization_id) {
             $query->where('organization_id', $organization_id);
         })->get();
