@@ -19,7 +19,7 @@ class TransportTypeController extends BaseCrudController
     public function store(Request $request)
     {
         $request->merge([
-            'organization_id' => 1
+            'organization_id' => $request->user()->organization_id
         ]);
 
         TransportType::create($request->all());
