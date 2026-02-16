@@ -22,7 +22,20 @@ class TransportList extends Model
 
     public function transports()
     {
-        return $this->hasMany(Transport::class);
+        return $this->hasMany(Transport::class)->orderByRaw("
+            TRY_CAST(
+                SUBSTRING(
+                    garage_number,
+                    1,
+                    PATINDEX('%[^0-9]%', garage_number + 'X') - 1
+                ) AS INT
+            )")
+            ->orderByRaw("
+            SUBSTRING(
+                garage_number,
+                PATINDEX('%[^0-9]%', garage_number + 'X'),
+                LEN(garage_number)
+            )");
     }
 
     public function employes()

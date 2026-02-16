@@ -14,7 +14,7 @@
             </RouterLink>
          </nav>
       </main>
-      <RouterView class="p-4 bg-white rounded-md border border-gray-200 dark:bg-zinc-900 dark:border-zinc-950" />
+      <RouterView class="p-4 bg-white rounded-md border border-gray-200" />
    </section>
 </template>
 

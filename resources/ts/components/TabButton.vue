@@ -34,7 +34,7 @@ const directions = {
    right: {
       border: "border-r hover:border-r-gray-500 dark:hover:border-r-gray-300",
       active: "!border-r-gray-500 dark:!border-r-gray-300",
-      different: "left-px",
+      different: "left-0",
    },
    top: {
       border: "border-t hover:border-t-gray-500 dark:hover:border-t-gray-300",

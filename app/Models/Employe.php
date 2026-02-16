@@ -9,7 +9,6 @@ class Employe extends Model
 {
     use HasFactory;
 
-    protected $with = ['transport_list'];
 
 
     protected $fillable = [

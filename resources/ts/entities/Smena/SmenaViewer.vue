@@ -12,7 +12,7 @@
                size="small"
             />
          </nav>
-         <main class="bg-white p-5 rounded-2xl border border-surface-100">
+         <main class="bg-zinc-50 p-5 rounded-2xl border border-gray-100 shadow-inner-xs">
             <table class="w-full table-fixed">
                <tbody>
                   <tr>

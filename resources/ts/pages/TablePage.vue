@@ -1,6 +1,6 @@
 <template>
    <section v-if="!isLoading" name="tabs" class="flex flex-col p-5">
-      <nav class="flex gap-0.5 pl-60 relative z-10">
+      <nav class="flex gap-0.5 relative z-10">
          <template v-for="type in organization?.transport_types">
             <TabButton class="text-xl!" :active="currentTab == type.id" @click="currentTab = type.id!">
                {{ type.name }}

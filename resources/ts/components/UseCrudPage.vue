@@ -4,7 +4,7 @@
          <BaseForm :submit="submit" @close="visibleRight = false" :input-configs="props.entityRepo.inputs" />
       </Drawer>
       <CrudTable
-         v-if="entity"
+         v-if="entity && isLoading == false"
          :columns="props.entityRepo.columns"
          :data="entity!"
          @update="openUpdateForm"
@@ -15,6 +15,9 @@
             <slot name="column" />
          </template>
       </CrudTable>
+      <main v-else class="flex items-center justify-center h-full">
+         <ProgressSpinner />
+      </main>
    </div>
 </template>
 
@@ -22,7 +25,6 @@
 import BaseForm from "@/components/BaseForm.vue";
 import CrudTable from "@/components/CrudTable.vue";
 import { ref, onMounted } from "vue";
-// import OrganizationRepo from "@repositories/OrganizationRepo";
 import { InputConfig, IOrganization } from "@/Interfaces";
 import { useFetchDecorator } from "@/modules/useFetch";
 import { deleteConfirm } from "@/modules/useConfirm";
@@ -46,7 +48,7 @@ const props = defineProps<{
 const visibleRight = ref(false);
 var submit: (values: any) => Promise<void>;
 
-const { data: entity, execute } = useFetchDecorator<any[]>(props.entityRepo.index);
+const { data: entity, execute, isLoading } = useFetchDecorator<any[]>(props.entityRepo.index);
 
 async function openCreateForm() {
    submit = async (values) => {
@@ -60,7 +62,7 @@ async function openCreateForm() {
          if (input.generateProps) await input.generateProps();
          input.value = undefined;
          return input;
-      })
+      }),
    ).finally(() => {
       visibleRight.value = true;
    });
@@ -76,7 +78,7 @@ const onDelete = (row: IOrganization) => {
          if (index > -1) {
             entity.value?.splice(index, 1);
          }
-      })
+      }),
    );
 };
 
@@ -100,7 +102,7 @@ async function openUpdateForm(row: any) {
          if (input.generateProps) await input.generateProps();
          input.value = parameter ? parameter[input.name] : undefined;
          return input;
-      })
+      }),
    ).finally(() => {
       visibleRight.value = true;
    });

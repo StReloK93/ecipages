@@ -13,7 +13,11 @@ class EmployeController extends BaseCrudController
         $organization_id = $request->user()->organization_id;
         return Employe::whereHas('transport_list.transportType', function ($query) use ($organization_id) {
             $query->where('organization_id', $organization_id);
-        })->get();
+        })
+            ->with([
+                'transport_list' => fn($q) => $q->without('transportType')->select('id', 'transport_type_id', 'name'),
+            ])
+            ->select('id', 'transport_list_id', 'name', 'table', 'razryad')->get();
     }
 
 }

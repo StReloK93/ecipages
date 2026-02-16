@@ -1,5 +1,8 @@
 <template>
    <div class="font-sans">
+      <h3 class="mb-2 text-xl text-right text-blue-600">
+         {{ transport.garage_number }} - <span class="text-base"> {{ list.name }} </span>
+      </h3>
       <div class="flex gap-5">
          <div class="w-1/4 rounded-xl h-fit">
             <DragBlockUser :groupLavozims="groupLavozims!" :list="props.list" @dragstart="onDragStart" />
@@ -16,9 +19,9 @@
                v-else
                v-for="lavozim in groupLavozims"
                :key="lavozim.id"
-               class="min-h-52 border border-surface-100 rounded-xl flex flex-col bg-white"
+               class="min-h-52 border border-gray-200 rounded-xl flex flex-col bg-white"
             >
-               <div class="flex justify-between items-center border-b border-gray-100 py-3 px-4">
+               <div class="flex justify-between items-center border-b border-gray-200 py-3 px-4">
                   <span class="font-semibold text-gray-600 text-sm">{{ lavozim.name }}</span>
                </div>
                <main class="flex flex-grow">
@@ -30,7 +33,7 @@
                      :class="{ 'bg-surface-50': hoveredBox == lavozim[change_id] }"
                      class="basis-0 flex-grow border-l first:border-0 border-surface-100 h-full relative transition-all"
                   >
-                     <span class="absolute top-2 right-2">
+                     <span class="absolute -top-1 right-2">
                         <Skeleton v-if="loadingBox == lavozim[change_id]" shape="circle" height="24px" width="24px" />
                         <span
                            v-else
@@ -39,14 +42,14 @@
                            {{ findChange(change_id) }}
                         </span>
                      </span>
-                     <div class="flex flex-wrap gap-2 p-3 items-start animate-pop-in">
+                     <div class="flex flex-wrap gap-2 px-3 py-4 items-start animate-pop-in">
                         <Chip
                            v-for="(group, index) in lavozim[change_id]"
                            @remove="removeUserFromBox(group.id, lavozim[change_id], index)"
                            :key="group"
                            :label="group.employe.name"
                            class="text-xs! animate-pop-in"
-                           removable
+                           :removable="!AuthStore.isAdmin"
                         />
                      </div>
                   </div>
@@ -64,7 +67,9 @@ import GroupRepo from "@/repositories/GroupRepo";
 import { ITransportList, IEmployee, ILavozim, ITransport, IChange, IGroup } from "@/Interfaces";
 import { onMounted, ref } from "vue";
 import { useFetchDecorator } from "@/modules/useFetch";
+import { useUserStore } from "@/stories/UserStore";
 
+const AuthStore = useUserStore();
 const loadingBox = ref(null);
 const toast = useToast();
 const hoveredBox = ref();

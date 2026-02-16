@@ -13,8 +13,10 @@
             </RouterLink>
          </nav>
          <nav class="flex gap-3">
-            <RouterLink :to="{ name: 'guide' }">
+            <RouterLink v-if="!AuthStore.isAdmin" :to="{ name: 'guide' }">
                <Button
+                  label="Qo'llanmalar"
+                  icon-pos="right"
                   size="small"
                   :variant="route.matched[1]?.name == 'guide' ? '' : 'text'"
                   :severity="route.matched[1]?.name == 'guide' ? '' : 'secondary'"

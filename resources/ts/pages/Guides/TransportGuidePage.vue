@@ -1,9 +1,9 @@
 <template>
-   <section>
+   <section class="grow">
       <Dialog v-if="selectTransport" v-model:visible="visibleViewer" modal header="Smena turi" class="w-280">
          <SmenaViewer :transport="selectTransport" />
       </Dialog>
-      <UseCrudPage :entity-repo="TransportRepo">
+      <UseCrudPage :entity-repo="TransportRepo" class="h-full">
          <template #column>
             <Column style="width: 50px">
                <template #body="{ data }">
