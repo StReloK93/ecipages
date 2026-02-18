@@ -11,6 +11,9 @@ export default {
    byTransportType(transport_type_id: number) {
       return api.get<ITransportList[]>(`${baseURL}/by/transport-type/${transport_type_id}`);
    },
+   tableTransportType(transport_type_id: number) {
+      return api.get<ITransportList[]>(`${baseURL}/table/transport-type/${transport_type_id}`);
+   },
    show(id: number) {
       return api.get<ITransportList>(`${baseURL}/${id}`);
    },

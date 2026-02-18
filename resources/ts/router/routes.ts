@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
             path: "/guide",
             name: "guide",
             component: () => import("../pages/GuidePage.vue"),
-            redirect: { name: "guide-lavozim" },
+            redirect: { name: "guide-transport-type" },
             children: [
                {
                   path: "lavozims",

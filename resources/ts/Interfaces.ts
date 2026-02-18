@@ -16,6 +16,7 @@ export interface ITransport {
    transport_list_id: number;
    smena_id: number;
    start_smena_day: string;
+   groups: IGroup[];
    smena: ISmena;
    id?: number;
 }
@@ -60,7 +61,7 @@ export interface ILavozim {
 export interface IGroup {
    id?: number;
    employe_id: number;
-   employe: number;
+   employe: IEmployee;
    change_id: number;
    change: IChange;
    transport_id: number;

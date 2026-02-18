@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transport extends Model
 {
     use HasFactory;
-    protected $with = ['transport_list', 'smena'];
+    protected $with = ['smena'];
 
     protected $fillable = [
         'garage_number',
@@ -22,6 +22,13 @@ class Transport extends Model
     {
         return $this->belongsTo(TransportList::class);
     }
+
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
 
     public function smena()
     {

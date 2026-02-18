@@ -23,6 +23,9 @@ export default {
    transports(formData: any) {
       return api.post(`${baseURL}/transports`, formData);
    },
+   transportsEmployes(formData: any) {
+      return api.post(`${baseURL}/transports-employes`, formData);
+   },
    columns: [
       { field: "name", header: "Nomi" },
       { field: "short_name", header: "Qisqa nomi" },

@@ -87,7 +87,10 @@ function findChange(id: number) {
    if (change) return change.name;
    else return null;
 }
-const uniqueValuesSet = new Set<number>(Object.values(props.transport.smena.formula.first));
+// Array.from(new Set(Object.values(props.transport.smena.formula.first))).sort((a, b) => a - b)
+const uniqueValuesSet = new Set<number>(
+   (Object.values(props.transport.smena.formula.first) as number[]).sort((a, b) => a - b),
+);
 const draggingItem = ref<IEmployee | null>(null);
 
 const groupLavozims = ref<null | any[]>(null);

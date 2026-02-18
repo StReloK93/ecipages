@@ -18,7 +18,7 @@
       </nav>
 
       <!-- <aside -->
-      <aside class="p-8 flex-grow bg-white border border-gray-100 rounded-4xl min-h-154 shadow-xs">
+      <aside class="p-8 pt-4 flex-grow bg-white border border-gray-100 rounded-4xl min-h-154 shadow-xs">
          <main v-if="isFirstLoading" class="flex items-center justify-center h-full">
             <ProgressSpinner />
          </main>
@@ -96,35 +96,3 @@ onMounted(async () => {
    if (firstList && firstTransport) onSelectTransport(firstTransport, firstList);
 });
 </script>
-<style>
-.scroll-left {
-   direction: rtl;
-}
-.scroll-left::-webkit-scrollbar {
-   width: 1px;
-}
-
-.the-shadow::after {
-   content: "";
-   position: absolute;
-   top: 0px;
-   left: 0px;
-   width: 100%;
-   height: 100px;
-   background: linear-gradient(#fafafaaa, transparent);
-   pointer-events: none;
-}
-
-.the-shadow::before {
-   content: "";
-   position: absolute;
-   bottom: 0px;
-   left: 0px;
-   width: 100%;
-   height: 100px;
-   z-index: 10;
-   background: linear-gradient(transparent, #fafafa);
-   pointer-events: none;
-}
-</style>
-<!-- 5974523 -->

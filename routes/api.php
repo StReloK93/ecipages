@@ -26,6 +26,9 @@ Route::controller(AuthController::class)
 
       Route::post('organizations/transports', [OrganizationController::class, 'transports']);
       Route::get('transport-lists/by/transport-type/{transportTypeId}', [TransportListController::class, 'byTransportType']);
+      Route::get('transport-lists/table/transport-type/{transportTypeId}', [TransportListController::class, 'TableTransportType']);
+
+
 
       Route::apiResource('organizations', OrganizationController::class);
       Route::apiResource('transports', TransportController::class);

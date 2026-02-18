@@ -1,16 +1,20 @@
 <template>
    <section v-if="!isLoading" name="tabs" class="flex flex-col p-5">
-      <nav class="flex gap-0.5 relative z-10">
-         <template v-for="type in organization?.transport_types">
-            <TabButton class="text-xl!" :active="currentTab == type.id" @click="currentTab = type.id!">
-               {{ type.name }}
-            </TabButton>
-         </template>
+      <nav class="flex gap-0.5 relative z-10 pl-11 justify-between items-end">
+         <main>
+            <template v-for="type in organization?.transport_types">
+               <TabButton class="text-xl!" :active="currentTab == type.id" @click="currentTab = type.id!">
+                  {{ type.name }}
+               </TabButton>
+            </template>
+         </main>
+
+         <ChangeView :id="props.id" />
       </nav>
       <main class="relative">
          <template v-for="type in organization?.transport_types">
             <Transition name="fade" mode="out-in">
-               <ActiveTransportTab v-if="type.id === currentTab" :key="type.id" :transport_type="type" />
+               <ActiveTableTab v-if="type.id === currentTab" :key="type.id" :transport_type="type" />
             </Transition>
          </template>
       </main>
@@ -18,7 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import ActiveTransportTab from "../components/ActiveTransportTab.vue";
+import ChangeView from "@/components/ChangeView.vue";
+import ActiveTableTab from "@/components/ActiveTableTab.vue";
 import OrganizationRepo from "../repositories/OrganizationRepo";
 import TabButton from "../components/TabButton.vue";
 import { onMounted, ref, Ref, watch } from "vue";

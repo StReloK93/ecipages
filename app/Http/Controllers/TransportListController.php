@@ -24,4 +24,12 @@ class TransportListController extends BaseCrudController
             ['transport_type_id', $transportTypeId],
         ])->get();
     }
+
+    public function TableTransportType($transportTypeId)
+    {
+
+        return TransportList::with('transports.groups')->where([
+            ['transport_type_id', $transportTypeId],
+        ])->get();
+    }
 }

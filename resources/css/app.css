@@ -23,3 +23,33 @@
 .fade-leave-to {
    opacity: 0;
 }
+
+.scroll-left {
+   direction: rtl;
+}
+.scroll-left::-webkit-scrollbar {
+   width: 1px;
+}
+
+.the-shadow::after {
+   content: "";
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   width: 100%;
+   height: 100px;
+   background: linear-gradient(#fafafaaa, transparent);
+   pointer-events: none;
+}
+
+.the-shadow::before {
+   content: "";
+   position: absolute;
+   bottom: 0px;
+   left: 0px;
+   width: 100%;
+   height: 100px;
+   z-index: 10;
+   background: linear-gradient(transparent, #fafafa);
+   pointer-events: none;
+}
