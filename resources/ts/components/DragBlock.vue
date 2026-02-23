@@ -7,7 +7,7 @@
          <div class="w-1/4 rounded-xl h-fit">
             <DragBlockUser :groupLavozims="groupLavozims!" :list="props.list" @dragstart="onDragStart" />
          </div>
-         <div class="w-3/4 grid grid-cols-1 gap-4">
+         <div class="w-3/4 grid grid-cols-1 gap-4 content-start">
             <Skeleton
                v-if="groupLavozims == null"
                border-radius="12px"
@@ -19,7 +19,7 @@
                v-else
                v-for="lavozim in groupLavozims"
                :key="lavozim.id"
-               class="min-h-52 border border-gray-200 rounded-xl flex flex-col bg-white"
+               class="h-40 border border-gray-200 rounded-xl flex flex-col bg-white"
             >
                <div class="flex justify-between items-center border-b border-gray-200 py-3 px-4">
                   <span class="font-semibold text-gray-600 text-sm">{{ lavozim.name }}</span>

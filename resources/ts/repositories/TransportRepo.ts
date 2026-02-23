@@ -77,7 +77,7 @@ export default {
       },
       {
          field: "start_smena_day",
-         header: "Smena boshlanish vaqti",
+         header: "Smena boshlanish kuni",
       },
    ],
 };

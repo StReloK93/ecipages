@@ -50,7 +50,7 @@ export default {
       },
       {
          field: "name",
-         header: "F.I.Sh",
+         header: "Lavozim nomi",
       },
    ],
 };
