@@ -41,7 +41,7 @@
                :transport="currentTransport!"
             />
             <main>
-               <SmenaViewer v-if="currentTransport" :transport="currentTransport" />
+               <SmenaViewer v-if="currentTransport" :transport="currentTransport" @selectSmena="selectSmena" />
             </main>
          </main>
       </aside>
@@ -64,6 +64,9 @@ const transportLists: Ref<ITransportList[]> = ref([]);
 const currentTransport: Ref<ITransport | null> = ref(null);
 const currentList: Ref<ITransportList | null> = ref(null);
 
+function selectSmena(smena: { id: number; name: string }) {
+   console.log(smena);
+}
 const counter = ref(0);
 
 const { execute: executeChange, data: changes, isFirstLoading } = useFetchDecorator<IChange[]>(ChangeRepo.index);
