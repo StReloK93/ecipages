@@ -42,7 +42,9 @@ Route::controller(AuthController::class)
       Route::apiResource('groups', GroupController::class);
 
 
+      Route::post('groups/transport/change', [GroupController::class, 'byTransportChange']);
       Route::get('groups/transport/{transport_id}', [GroupController::class, 'byTransport']);
+
 
 
    });

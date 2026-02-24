@@ -1,5 +1,41 @@
 <template>
    <section class="flex w-full">
+      <Dialog
+         v-model:visible="isSelectedSmena"
+         modal
+         :header="`${currentTransport?.garage_number}  - ${currentList?.name}`"
+         :style="{ width: '25rem' }"
+      >
+         <main class="pt-4">
+            <aside class="flex items-center gap-2 text-sm text-gray-500 justify-between mb-9">
+               <main class="flex gap-2">
+                  <span>
+                     {{ formatDate(modalData.smena?.day).month }} - {{ formatDate(modalData.smena?.day).day }}
+                  </span>
+                  <span>
+                     {{ formatDate(modalData.smena?.day).weekday }}
+                  </span>
+               </main>
+
+               <span v-if="modalData.smena?.smena == 1" class="inline-flex items-center gap-2">
+                  Kunduzgi <b class="text-gray-700 font-semibold">{{ modalData.change?.name }}</b> smena
+                  <span class="p-button-icon pi pi-sun text-orange-400"></span>
+               </span>
+               <span v-else class="inline-flex items-center gap-2">
+                  Tungi <b class="text-gray-700 font-semibold">{{ modalData.change?.name }}</b> smena
+                  <span class="p-button-icon pi pi-moon !text-sm text-sky-500"></span>
+               </span>
+            </aside>
+            <div v-for="group in modalData.groups" class="py-2 mb-3">
+               <h3 class="text-gray-500 text-sm">
+                  {{ group.lavozim.name }}
+               </h3>
+               <div class="text-xl">
+                  {{ group.employe.name }}
+               </div>
+            </div>
+         </main>
+      </Dialog>
       <nav class="min-w-48 relative z-50 the-shadow">
          <main class="absolute inset-0 overflow-y-auto overflow-x-hidden h-full flex flex-col gap-1 py-10 scroll-left">
             <template v-for="list in transportLists">
@@ -50,22 +86,37 @@
 </template>
 
 <script setup lang="ts">
+import { formatDate } from "@/modules/timeFunction";
 import DragBlock from "@/components/DragBlock.vue";
 import SmenaViewer from "../entities/Smena/SmenaViewer.vue";
 import TransportListRepo from "@/repositories/TransportListRepo";
 import TabButton from "./TabButton.vue";
-import { ref, Ref, onMounted, nextTick } from "vue";
-import { IChange, ITransport, ITransportList, ITransportType } from "../Interfaces";
+import { ref, Ref, onMounted, nextTick, reactive } from "vue";
+import { IChange, IGroup, ITransport, ITransportList, ITransportType } from "../Interfaces";
 import { useFetchDecorator } from "@/modules/useFetch";
 import ChangeRepo from "@/repositories/ChangeRepo";
+import GroupRepo from "@/repositories/GroupRepo";
 const props = defineProps<{ transport_type: ITransportType }>();
 
 const transportLists: Ref<ITransportList[]> = ref([]);
 const currentTransport: Ref<ITransport | null> = ref(null);
 const currentList: Ref<ITransportList | null> = ref(null);
 
-function selectSmena(smena: { id: number; name: string }) {
-   console.log(smena);
+const { execute: executeGroup, data: groups } = useFetchDecorator<IGroup[]>(GroupRepo.byTransportChange);
+
+const isSelectedSmena = ref(false);
+const modalData = reactive<any>({
+   smena: null,
+   change: null,
+   groups: null,
+});
+async function selectSmena(change: { id: number; name: string }, smena: { day: Date; smena: number }) {
+   await executeGroup(currentTransport.value?.id!, change.id);
+   modalData.smena = smena;
+   modalData.change = change;
+   modalData.groups = groups;
+
+   isSelectedSmena.value = true;
 }
 const counter = ref(0);
 

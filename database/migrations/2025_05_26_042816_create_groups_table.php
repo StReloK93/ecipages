@@ -17,8 +17,6 @@ return new class extends Migration {
             $table->integer('change_id');
             $table->integer('lavozim_id');
             $table->timestamps();
-
-            $table->unique(['employe_id', 'transport_id', 'change_id']);
         });
     }
 

@@ -129,6 +129,7 @@ const onDrop = async (event: DragEvent, lavozim: any, changeId: number) => {
             life: 5000,
          });
       }
+
       loadingBox.value = lavozim[changeId];
       await GroupRepo.store(formData)
          .then((res) => {
@@ -158,6 +159,8 @@ const removeUserFromBox = (group_id: number, box: any, index: number | string) =
 
 onMounted(async () => {
    await executeGroup(props.transport.id!);
+   console.log(groups);
+
    groupLavozims.value = props.lavozims.map((lavozim: any) => {
       uniqueValuesSet.forEach((value) => {
          const currentGroups = groups.value?.filter(

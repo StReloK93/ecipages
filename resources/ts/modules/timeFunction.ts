@@ -53,3 +53,32 @@ export function getShiftInfo(dateInput: Date, startSmena1: string = "09:40", end
       smena,
    };
 }
+
+export function formatDate(date: Date): {
+   month: string;
+   day: number;
+   weekday: string;
+} {
+   const months = [
+      "Yanvar",
+      "Fevral",
+      "Mart",
+      "Aprel",
+      "May",
+      "Iyun",
+      "Iyul",
+      "Avgust",
+      "Sentabr",
+      "Oktabr",
+      "Noyabr",
+      "Dekabr",
+   ];
+
+   const weekdays = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+
+   return {
+      month: months[date.getMonth()],
+      day: date.getDate(),
+      weekday: weekdays[date.getDay()],
+   };
+}

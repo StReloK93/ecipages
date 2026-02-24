@@ -9,10 +9,16 @@
 }
 
 :root {
+   --p-dialog-header-padding: 10px 20px !important;
    --p-form-field-sm-padding-y: 4px !important;
    --p-form-field-sm-padding-x: 8px !important;
 }
-
+.p-dialog-header {
+   @apply bg-slate-50 rounded-t-3xl  border-b border-gray-100;
+}
+.p-dialog-title {
+   @apply text-gray-500! text-base!;
+}
 .fade-enter-active,
 .fade-leave-active {
    position: absolute;

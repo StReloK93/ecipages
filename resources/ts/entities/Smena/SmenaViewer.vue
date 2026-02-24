@@ -32,7 +32,12 @@
                         <span class="p-button-icon pi pi-sun text-orange-400"></span>
                      </td>
                      <td
-                        @click="$emit('selectSmena', getChangeByID(props.transport.smena.formula.first[day.number]))"
+                        @click="
+                           $emit('selectSmena', getChangeByID(props.transport.smena.formula.first[day.number]), {
+                              day: day.date,
+                              smena: 1,
+                           })
+                        "
                         class="text-center border-b border-b-surface-200 hover:bg-surface-100 cursor-pointer"
                         :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
                         v-for="day in month"
@@ -47,7 +52,12 @@
                         <span class="p-button-icon pi pi-moon !text-sm text-sky-500"></span>
                      </td>
                      <td
-                        @click="$emit('selectSmena', getChangeByID(props.transport.smena.formula.second[day.number]))"
+                        @click="
+                           $emit('selectSmena', getChangeByID(props.transport.smena.formula.second[day.number]), {
+                              day: day.date,
+                              smena: 2,
+                           })
+                        "
                         class="text-center hover:bg-surface-100 cursor-pointer"
                         :class="{ 'border-l-surface-200 border border-transparent': day.startSmena }"
                         v-for="day in month"

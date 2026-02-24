@@ -9,6 +9,15 @@ class GroupController extends BaseCrudController
 {
     protected string $model = Group::class;
 
+    public function byTransportChange(Request $request)
+    {
+        $transport_id = $request->transport_id;
+        $change_id = $request->change_id;
+        return Group::with('lavozim')->where([
+            ['transport_id', $transport_id],
+            ['change_id', $change_id]
+        ])->get();
+    }
 
 
     public function byTransport($transport_id)
@@ -20,12 +29,7 @@ class GroupController extends BaseCrudController
     public function store(Request $request)
     {
         $request->validate([
-            'employe_id' => [
-                'required',
-                Rule::unique('groups')
-                    ->where('transport_id', $request->transport_id)
-                    ->where('change_id', $request->change_id),
-            ],
+            'employe_id' => 'required',
             'transport_id' => 'required',
             'change_id' => 'required',
             'lavozim_id' => 'required',

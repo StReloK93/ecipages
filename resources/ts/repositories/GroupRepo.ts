@@ -9,6 +9,9 @@ export default {
    byTransport(transport_id: number) {
       return api.get<IGroup[]>(`${baseURL}/transport/${transport_id}`);
    },
+   byTransportChange(transport_id: number, change_id: number) {
+      return api.post<IGroup[]>(`${baseURL}/transport/change`, { transport_id, change_id });
+   },
    show(id: number) {
       return api.get<IGroup>(`${baseURL}/${id}`);
    },
