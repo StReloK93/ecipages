@@ -14,7 +14,7 @@ class TransportController extends BaseCrudController
    {
       $organization_id = $request->user()->organization_id;
       return Transport::with('transport_list')
-         ->whereHas('transport_list.transportType', function ($query) use ($organization_id) {
+         ->whereHas('transport_list.transport_type', function ($query) use ($organization_id) {
             $query->where('organization_id', $organization_id);
          })->get();
    }

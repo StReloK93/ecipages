@@ -10,20 +10,25 @@ class Employe extends Model
     use HasFactory;
 
 
-
     protected $fillable = [
         'name',
         'table',
         'razryad',
-        'transport_list_id',
-    ];
-    protected $casts = [
-        'transport_list_id' => 'integer',
     ];
 
 
-    public function transport_list()
+    public function transport_lists()
     {
-        return $this->belongsTo(TransportList::class);
+        return $this->hasMany(EmployeTransportList::class);
+    }
+
+    public function transportLists()
+    {
+        return $this->belongsToMany(
+            TransportList::class,
+            'employe_transport_lists',
+            'employe_id',
+            'transport_list_id'
+        );
     }
 }

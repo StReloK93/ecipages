@@ -47,14 +47,14 @@ export default {
          class: ["mb-4"],
       },
       {
-         component: PrimeInputs["Select"],
-         name: "transport_list_id",
+         component: PrimeInputs["MultiSelect"],
+         name: "transport_lists",
          placeholder: "Qurilma modeli",
          generateProps: async function () {
             const { data } = await api.get("transport-lists");
             this.props = selectOption(data, "name");
          },
-         schema: yup.number().required("Majburiy maydon!"),
+         schema: yup.array().of(yup.number()).required("Majburiy maydon!"),
          class: ["mb-4"],
       },
    ] as InputConfig[],
@@ -73,8 +73,9 @@ export default {
          header: "Tabel raqami",
       },
       {
-         field: "transport_list.name",
+         field: "transport_lists",
          header: "Qurilma modeli",
+         render: (row: any) => row.transport_lists.map((t: any) => t.transport_list.name),
       },
    ],
 };

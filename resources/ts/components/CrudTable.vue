@@ -9,7 +9,18 @@
                {{ index + 1 }}
             </template>
          </Column>
-         <Column v-for="column in props.columns" :key="column.field" :field="column.field" :header="column.header" />
+         <template v-for="column in props.columns" :key="column.field">
+            <Column v-if="column.render" :header="column.header">
+               <template #body="{ data }">
+                  <template v-if="column.render">
+                     <div class="flex gap-1 flex-wrap">
+                        <Tag v-for="item in column.render(data)" :key="item" :value="item" />
+                     </div>
+                  </template>
+               </template>
+            </Column>
+            <Column v-else :header="column.header" :field="column.field" />
+         </template>
          <slot name="column"></slot>
          <Column style="width: 50px">
             <template #body="{ data }">
