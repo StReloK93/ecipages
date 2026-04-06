@@ -9,6 +9,9 @@ export default {
    index() {
       return api.get(`${baseURL}`);
    },
+   showByOrganization(organization_id: number) {
+      return api.get(`${baseURL}/show/${organization_id}`);
+   },
    show(id: number) {
       return api.get(`${baseURL}/${id}`);
    },

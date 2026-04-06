@@ -15,7 +15,7 @@
             <div
                v-for="user in users"
                :key="user.id"
-               :draggable="!AuthStore.isAdmin"
+               :draggable="AuthStore.canChange(+$route.params.id)"
                @dragstart="emit('dragstart', $event, user)"
                :class="[AuthStore.isAdmin ? 'cursor-default' : 'cursor-grab active:cursor-grabbing']"
                class="select-none rounded-xl py-2 px-4 bg-zinc-50 border border-surface-100 hover:bg-blue-300/10 hover:border-blue-300 transition-all flex items-center gap-3"

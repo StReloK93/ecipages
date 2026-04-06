@@ -28,6 +28,21 @@ class EmployeController extends BaseCrudController
             ->get();
     }
 
+    public function showByOrganization($organization_id)
+    {
+        return Employe::whereHas(
+            'transport_lists.transport_list.transport_type',
+            function ($q) use ($organization_id) {
+                $q->where('organization_id', $organization_id);
+            }
+        )
+            ->with([
+                'transport_lists.transport_list:id,transport_type_id,name'
+            ])
+            ->select('id', 'name', 'table', 'razryad')
+            ->get();
+    }
+
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {

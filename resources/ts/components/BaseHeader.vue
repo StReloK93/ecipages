@@ -13,30 +13,20 @@
             </RouterLink>
          </nav>
          <nav class="flex gap-3">
-            <RouterLink v-if="!AuthStore.isAdmin" :to="{ name: 'guide' }">
+            <RouterLink v-if="AuthStore.isAdmin" :to="{ name: 'roles' }">
                <Button
-                  label="Qo'llanmalar"
-                  icon-pos="right"
+                  :variant="route.name == 'roles' ? '' : 'text'"
+                  :severity="route.name == 'roles' ? '' : 'secondary'"
+                  label="Foydalanuvchilar"
                   size="small"
-                  :variant="route.matched[1]?.name == 'guide' ? '' : 'text'"
-                  :severity="route.matched[1]?.name == 'guide' ? '' : 'secondary'"
-                  class="min-w-[35px]"
-                  icon="pi pi-book"
+                  icon="pi pi-users"
                />
             </RouterLink>
-            <!-- <Button
-               size="small"
-               class="min-w-[35px]"
-               variant="text"
-               :icon="themeMoon ? 'pi pi-sun' : 'pi pi-moon'"
-               severity="secondary"
-               @click="toggleDarkMode()"
-            /> -->
             <Button
                label="Chiqish"
                icon-pos="right"
                size="small"
-               class="min-w-[35px]"
+               class="min-w-[35px] ml-4"
                variant="text"
                icon="pi pi-sign-out"
                severity="secondary"
@@ -49,15 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stories/UserStore";
-const themeMoon = ref(false);
 const route = useRoute();
 const AuthStore = useUserStore();
-
-// function toggleDarkMode() {
-//    document.documentElement.classList.toggle("dark");
-//    themeMoon.value = document.documentElement.classList.contains("dark");
-// }
 </script>

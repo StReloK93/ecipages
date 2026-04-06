@@ -5,11 +5,14 @@ import { PrimeInputs, globalProps } from "@/modules/PrimeInputs";
 const baseURL = "organizations";
 
 export default {
-   index() {
-      return api.get<IOrganization[]>(`${baseURL}`);
+   index(date: Date = new Date()) {
+      return api.post<IOrganization[]>(`${baseURL}`, { date: date });
    },
    show(id: number) {
       return api.get<IOrganization>(`${baseURL}/${id}`);
+   },
+   aviable(date: Date = new Date()) {
+      return api.post<IOrganization[]>(`${baseURL}/aviable`, { date: date });
    },
    store(formData: IOrganization) {
       return api.post<IOrganization>(`${baseURL}`, formData);
@@ -25,6 +28,9 @@ export default {
    },
    transportsEmployes(formData: any) {
       return api.post(`${baseURL}/transports-employes`, formData);
+   },
+   successCurrentMonth(formData: { organization_id: number; date: Date }) {
+      return api.post<{ name: string; id: number; count: number }[]>(`${baseURL}/success-current-month`, formData);
    },
    columns: [
       { field: "name", header: "Nomi" },

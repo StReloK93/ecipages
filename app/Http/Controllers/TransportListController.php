@@ -16,6 +16,12 @@ class TransportListController extends BaseCrudController
         })->get();
     }
 
+    public function showByOrganization($organization_id)
+    {
+        return TransportList::whereHas('transport_type', function ($query) use ($organization_id) {
+            $query->where('organization_id', $organization_id);
+        })->get();
+    }
 
     public function byTransportType($transportTypeId)
     {

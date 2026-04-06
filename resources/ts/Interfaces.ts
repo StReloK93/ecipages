@@ -5,8 +5,11 @@ export interface IOrganization {
    name: string;
    short_name: string;
    transports: ITransport[];
+   success: any[];
+   can_success?: boolean;
+   can_change?: boolean;
    transport_types: ITransportType[];
-   id?: number;
+   id: number;
 }
 
 export interface ITransport {
@@ -110,8 +113,17 @@ export interface ILavozim {
    id?: number;
 }
 
-export interface IUser {
+export interface IOrganizationRole {
    organization_id: number;
+   can_change: number;
+   can_success: number;
+   organization: IOrganization;
+}
+
+export interface IUser {
+   id: number;
+   organization_roles: IOrganizationRole[];
+   success_roles: Array<{ id: number; boss_profession: { id: number } }>;
    name: string;
    login: string;
    role: number;

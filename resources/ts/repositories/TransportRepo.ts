@@ -8,6 +8,9 @@ export default {
    index() {
       return api.get<ITransport[]>(`${baseURL}`);
    },
+   showByOrganization(organization_id: number) {
+      return api.get<ITransport[]>(`${baseURL}/show/${organization_id}`);
+   },
    show(id: number) {
       return api.get<ITransport>(`${baseURL}/${id}`);
    },

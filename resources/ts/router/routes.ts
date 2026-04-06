@@ -8,12 +8,17 @@ const routes: RouteRecordRaw[] = [
       redirect: { name: "main" },
       children: [
          {
+            path: "/roles",
+            name: "roles",
+            component: () => import("../pages/UserRolesPage.vue"),
+         },
+         {
             path: "",
             name: "main",
             component: () => import("../pages/HomePage.vue"),
          },
          {
-            path: "/organization/:id?",
+            path: "/organization/:id",
             name: "organization",
             props: true,
             component: () => import("../pages/OrganizationPage.vue"),
@@ -25,8 +30,9 @@ const routes: RouteRecordRaw[] = [
             component: () => import("../pages/TablePage.vue"),
          },
          {
-            path: "/guide",
+            path: "/guide/:organization_id",
             name: "guide",
+            props: true,
             component: () => import("../pages/GuidePage.vue"),
             redirect: { name: "guide-transport-type" },
             children: [

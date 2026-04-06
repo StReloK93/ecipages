@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
-        'email',
+        'login',
+        'organization_id',
         'password',
+        'role'
     ];
 
     /**
@@ -41,6 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'organization_id' => 'integer',
-        'role' => 'integer',
+        'role' => 'boolean',
+
     ];
+
+
+    protected $with = ['organization_roles', 'success_roles'];
+
+    public function organization_roles()
+    {
+        return $this->hasMany(UserOrganizationRole::class, 'user_id', 'id');
+    }
+
+    public function success_roles()
+    {
+        return $this->hasMany(UserSuccessRole::class, 'user_id', 'id');
+    }
 }

@@ -29,7 +29,10 @@ import { InputConfig, IOrganization } from "@/Interfaces";
 import { useFetchDecorator } from "@/modules/useFetch";
 import { deleteConfirm } from "@/modules/useConfirm";
 import { useConfirm } from "primevue/useconfirm";
+import { useRoute } from "vue-router";
 const confirm = useConfirm();
+
+const route = useRoute();
 
 interface Repository {
    index: () => Promise<any>;
@@ -37,6 +40,7 @@ interface Repository {
    update: (id: number, values: any) => Promise<any>;
    destroy: (id: number) => Promise<any>;
    show: (id: number) => Promise<any>;
+   showByOrganization: (organization_id: number) => Promise<any>;
    inputs: InputConfig[];
    columns: { field: string; header: string }[];
 }
@@ -48,12 +52,12 @@ const props = defineProps<{
 const visibleRight = ref(false);
 var submit: (values: any) => Promise<void>;
 
-const { data: entity, execute, isLoading } = useFetchDecorator<any[]>(props.entityRepo.index);
+const { data: entity, execute, isLoading } = useFetchDecorator<any[]>(props.entityRepo.showByOrganization);
 
 async function openCreateForm() {
    submit = async (values) => {
       await props.entityRepo.store(values);
-      await execute();
+      await execute(route.params.organization_id);
       visibleRight.value = false;
    };
 
@@ -109,6 +113,6 @@ async function openUpdateForm(row: any) {
 }
 
 onMounted(() => {
-   execute();
+   execute(route.params.organization_id);
 });
 </script>

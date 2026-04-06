@@ -14,6 +14,10 @@ class SmenaController extends BaseCrudController
         return Smena::where('organization_id', $organization_id)->get();
     }
 
+    public function showByOrganization($organization_id)
+    {
+        return Smena::where('organization_id', $organization_id)->get();
+    }
 
     public function store(Request $request)
     {

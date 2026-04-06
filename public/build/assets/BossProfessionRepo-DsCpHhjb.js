@@ -1,0 +1,1 @@
+import{V as e}from"./app-zfB6Ed1u.js";const o="boss-profession",t={index(s=new Date){return e.post(`${o}`,{date:s})},successCurrentMonth(s){return e.post(`${o}/success-current-month`,s)},aviableBossProfessions(s=new Date){return e.post(`${o}/aviable`,{date:s})}};export{t as B};

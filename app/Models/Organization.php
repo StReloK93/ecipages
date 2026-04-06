@@ -19,10 +19,25 @@ class Organization extends Model
     ];
 
 
+    public function getCanSuccessAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getCanChangeAttribute($value)
+    {
+        return (bool) $value;
+    }
+
     public function transport_types(): HasMany
     {
         return $this->hasMany(TransportType::class);
     }
 
+
+    public function success(): HasMany
+    {
+        return $this->hasMany(Success::class);
+    }
 
 }

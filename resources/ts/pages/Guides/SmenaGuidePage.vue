@@ -63,13 +63,17 @@ import SmenaRepo from "@repositories/SmenaRepo";
 import { ISmena } from "@/Interfaces";
 import { useConfirm } from "primevue/useconfirm";
 import { useFetchDecorator } from "@/modules/useFetch";
+import { useRoute } from "vue-router";
 const editableRow: Ref<number | null> = ref(null);
 
+const route = useRoute();
 const createDialog: Ref<boolean> = ref(false);
 const editDialog: Ref<boolean> = ref(false);
 const confirm = useConfirm();
 
-const { data: smenalar, execute } = useFetchDecorator<ISmena[]>(SmenaRepo.index);
+const organization_id = route.params.organization_id as string;
+
+const { data: smenalar, execute } = useFetchDecorator<ISmena[]>(SmenaRepo.showByOrganization);
 
 async function onRowCreate(formData: ISmena) {
    const { data } = await SmenaRepo.store(formData);
@@ -119,6 +123,6 @@ async function onRowEdit(formData: ISmena) {
 }
 
 onMounted(() => {
-   execute();
+   execute(organization_id);
 });
 </script>

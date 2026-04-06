@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\BossProfession;
 use Illuminate\Database\Seeder;
 use App\Models\TransportType;
 use App\Models\Organization;
@@ -116,6 +117,24 @@ class DatabaseSeeder extends Seeder
 
 
 
+        // BossProfession::insert([
+        //     [
+        //         'name' => 'Кон ишлари буйича бош мухандис уринбосари',
+        //         'count' => 1,
+        //     ],
+        //     [
+        //         'name' => 'Директорнинг транспорт буйича уринбосари',
+        //         'count' => 2,
+        //     ],
+        //     [
+        //         'name' => 'Мехнатни ташкил этиш ва иш хаки булими бошлиги',
+        //         'count' => 3,
+        //     ],
+        //     [
+        //         'name' => 'Кадрлар булими бошлиги',
+        //         'count' => 4,
+        //     ],
+        // ]);
 
 
 

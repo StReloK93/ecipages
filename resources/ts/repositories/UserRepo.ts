@@ -28,4 +28,22 @@ async function logout() {
       },
    );
 }
-export default { login, getAuthUser, logout };
+export default {
+   login,
+   getAuthUser,
+   logout,
+   index() {
+      return api.get<IUser[]>("users");
+   },
+   async show(id: number) {
+      return api.get(`/users/${id}`).then((res) => res.data);
+   },
+
+   async store(data: any) {
+      return api.post("/users", data);
+   },
+
+   async update(id: number, data: any) {
+      return api.put(`/users/${id}`, data);
+   },
+};

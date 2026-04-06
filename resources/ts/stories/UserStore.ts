@@ -14,11 +14,11 @@ export const useUserStore = defineStore("userStore", () => {
       localStorage.setItem("token", result.data.token);
       user.value = result.data.user;
 
-      if (result.data.user.role === 1) {
-         router.push({ name: "home" });
-      } else {
-         router.push({ name: "organization" });
-      }
+      router.push({ name: "home" });
+   }
+
+   async function setUser(params: IUser) {
+      user.value = params;
    }
 
    async function getAuthUser() {
@@ -44,5 +44,9 @@ export const useUserStore = defineStore("userStore", () => {
 
    const isAdmin = computed(() => user.value?.role);
 
-   return { user, initialized, login, getAuthUser, logout, logoutLoading, isAdmin };
+   function canChange(organzation_id: number) {
+      return user.value?.organization_roles.some((role) => role.organization_id === organzation_id && role.can_change);
+   }
+
+   return { user, initialized, login, getAuthUser, logout, logoutLoading, isAdmin, canChange, setUser };
 });

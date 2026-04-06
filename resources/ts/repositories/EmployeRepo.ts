@@ -8,6 +8,9 @@ export default {
    index() {
       return api.get<IEmployee[]>(`${baseURL}`);
    },
+   showByOrganization(organization_id: number) {
+      return api.get<IEmployee[]>(`${baseURL}/show/${organization_id}`);
+   },
    show(id: number) {
       return api.get<IEmployee>(`${baseURL}/${id}`);
    },

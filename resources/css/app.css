@@ -12,13 +12,34 @@
    --p-dialog-header-padding: 10px 20px !important;
    --p-form-field-sm-padding-y: 4px !important;
    --p-form-field-sm-padding-x: 8px !important;
+   --p-togglebutton-sm-padding: 0.125rem !important;
+   --p-listbox-option-selected-background: var(--p-surface-100) !important;
+   /* --p-listbox-option-selected-color: white !important; */
+   /* --p-list-option-focus-background: var(--p-primary-color) !important;
+   --p-listbox-option-focus-color: white !important; */
 }
+
+.rowed .p-togglebutton-content {
+   justify-content: start !important;
+}
+
 .p-dialog-header {
    @apply bg-slate-50 rounded-t-3xl  border-b border-gray-100;
 }
 .p-dialog-title {
    @apply text-gray-500! text-base!;
 }
+
+.v-enter-active,
+.v-leave-active {
+   transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+   opacity: 0;
+}
+
 .fade-enter-active,
 .fade-leave-active {
    position: absolute;

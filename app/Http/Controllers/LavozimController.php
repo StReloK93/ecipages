@@ -15,4 +15,12 @@ class LavozimController extends BaseCrudController
             $query->where('organization_id', $organization_id);
         })->get();
     }
+
+    public function showByOrganization($organization_id)
+    {
+        return Lavozim::with('transportType')->whereHas('transportType', function ($query) use ($organization_id) {
+            $query->where('organization_id', $organization_id);
+        })->get();
+    }
+
 }

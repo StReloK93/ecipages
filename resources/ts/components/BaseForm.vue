@@ -23,20 +23,9 @@
                   <label :for="input.name">{{ input.placeholder }}</label>
                </FloatLabel>
 
-               <component
-                  v-else
-                  :is="input.component"
-                  :input="input"
-                  :name="input.name"
-                  v-bind="input.props"
-               />
+               <component v-else :is="input.component" :input="input" :name="input.name" v-bind="input.props" />
 
-               <Message
-                  v-if="$form[input.name]?.invalid"
-                  severity="error"
-                  size="small"
-                  variant="simple"
-               >
+               <Message v-if="$form[input.name]?.invalid" severity="error" size="small" variant="simple">
                   {{ $form[input.name].error.message }}
                </Message>
             </main>
@@ -80,7 +69,6 @@ const props = defineProps<{
 const onFormSubmit = async (formEvent: FormSubmitEvent) => {
    if (formEvent.valid) {
       buttonLoader.value = true;
-      console.log(formEvent);
       await props.submit(formEvent.values).finally(() => {
          buttonLoader.value = false;
       });
@@ -90,19 +78,25 @@ const onFormSubmit = async (formEvent: FormSubmitEvent) => {
 };
 
 const initialValues = reactive(
-   props.inputConfigs.reduce((acc, curr) => {
-      acc[curr.name] = curr.value;
-      return acc;
-   }, {} as Record<string, unknown>)
+   props.inputConfigs.reduce(
+      (acc, curr) => {
+         acc[curr.name] = curr.value;
+         return acc;
+      },
+      {} as Record<string, unknown>,
+   ),
 );
 
 // 1. Dinamik ravishda obyekt sxemasini yig'ib chiqamiz
-const schemaObject = props.inputConfigs.reduce((acc, curr) => {
-   if (curr.schema) {
-      acc[curr.name] = curr.schema;
-   }
-   return acc;
-}, {} as Record<string, yup.AnySchema>);
+const schemaObject = props.inputConfigs.reduce(
+   (acc, curr) => {
+      if (curr.schema) {
+         acc[curr.name] = curr.schema;
+      }
+      return acc;
+   },
+   {} as Record<string, yup.AnySchema>,
+);
 
 const resolver = yupResolver(yup.object().shape(schemaObject));
 

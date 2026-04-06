@@ -49,7 +49,7 @@
                            :key="group"
                            :label="group.employe.name"
                            class="text-xs! animate-pop-in"
-                           :removable="!AuthStore.isAdmin"
+                           :removable="AuthStore.canChange(+$route.params.id)"
                         />
                      </div>
                   </div>
@@ -87,9 +87,9 @@ function findChange(id: number) {
    if (change) return change.name;
    else return null;
 }
-// Array.from(new Set(Object.values(props.transport.smena.formula.first))).sort((a, b) => a - b)
+
 const uniqueValuesSet = new Set<number>(
-   (Object.values(props.transport.smena.formula.first) as number[]).sort((a, b) => a - b),
+   (Object.values(props.transport.smena?.formula.first || {}) as number[]).sort((a, b) => a - b),
 );
 const draggingItem = ref<IEmployee | null>(null);
 
@@ -159,8 +159,6 @@ const removeUserFromBox = (group_id: number, box: any, index: number | string) =
 
 onMounted(async () => {
    await executeGroup(props.transport.id!);
-   console.log(groups);
-
    groupLavozims.value = props.lavozims.map((lavozim: any) => {
       uniqueValuesSet.forEach((value) => {
          const currentGroups = groups.value?.filter(

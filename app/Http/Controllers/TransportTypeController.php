@@ -15,6 +15,10 @@ class TransportTypeController extends BaseCrudController
         return TransportType::where('organization_id', $organization_id)->get();
     }
 
+    public function showByOrganization($organization_id)
+    {
+        return TransportType::where('organization_id', $organization_id)->get();
+    }
 
     public function store(Request $request)
     {

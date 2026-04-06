@@ -1,9 +1,13 @@
 <template>
-   <section v-if="!isLoading" name="tabs" class="flex flex-col p-5">
+   <section
+      v-if="!isLoading && (AuthStore.user?.organization_roles.length || AuthStore.isAdmin)"
+      name="tabs"
+      class="flex flex-col p-5"
+   >
       <nav class="flex gap-0.5 pl-60 relative z-10 justify-between items-end">
          <main>
             <template v-for="type in organization?.transport_types">
-               <TabButton class="text-xl!" :active="currentTab == type.id" @click="currentTab = type.id!">
+               <TabButton :active="currentTab == type.id" @click="currentTab = type.id!">
                   {{ type.name }}
                </TabButton>
             </template>
@@ -17,6 +21,26 @@
             </Transition>
          </template>
       </main>
+   </section>
+   <section
+      v-else-if="!isLoading && !AuthStore.user?.organization_roles.length"
+      class="p-5 flex items-center justify-center h-full"
+   >
+      <main>
+         <div class="flex items-center gap-3 text-3xl font-semibold mb-3">
+            Sizda hech qanday bo'linmaga dostup yo'q.
+         </div>
+         <p class="text-gray-500">
+            <i class="pi pi-info-circle text-xl"></i>
+            Iltimos, administrator bilan bog'laning.
+         </p>
+      </main>
+   </section>
+   <section v-else class="p-5">
+      <div class="flex items-center gap-3 text-gray-500">
+         <i class="pi pi-spin pi-spinner text-xl"></i>
+         Ma'lumotlar yuklanmoqda...
+      </div>
    </section>
 </template>
 
@@ -45,11 +69,7 @@ watch(
    (current) => executeTransport({ id: current }),
 );
 onMounted(async () => {
-   if (AuthStore.isAdmin) {
-      await executeTransport({ id: props.id });
-   } else {
-      await executeTransport({ id: AuthStore.user?.organization_id });
-   }
+   await executeTransport({ id: props.id });
 
    if (organization.value && organization.value.transport_types[0]) {
       currentTab.value = organization.value.transport_types[0].id!;

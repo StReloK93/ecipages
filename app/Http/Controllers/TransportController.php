@@ -19,6 +19,13 @@ class TransportController extends BaseCrudController
          })->get();
    }
 
+   public function showByOrganization($organization_id)
+   {
+      return Transport::with('transport_list')
+         ->whereHas('transport_list.transport_type', function ($query) use ($organization_id) {
+            $query->where('organization_id', $organization_id);
+         })->get();
+   }
 
    public function update(Request $request, $id)
    {

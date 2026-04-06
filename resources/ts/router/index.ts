@@ -20,15 +20,7 @@ router.beforeEach(async (to, from, next) => {
    const isAdmin = userStore.user?.role;
 
    if (!isAuthenticated && to.name !== "login" && userStore.initialized) return next({ name: "login" });
-   else if (isAuthenticated && to.name == "login") {
-      if (isAdmin) {
-         return next({ name: "main" });
-      } else {
-         return next({ name: "organization" });
-      }
-   } else if (!isAdmin && to.name == "main") {
-      return next({ name: "organization" });
-   } else return next();
+   else return next();
 });
 
 export default router;

@@ -14,6 +14,11 @@ abstract class BaseCrudController extends Controller
       return $this->model::all();
    }
 
+   public function showByOrganization($organization_id)
+   {
+      return $this->model::all();
+   }
+
    public function show($id)
    {
       return $this->model::findOrFail($id);

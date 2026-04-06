@@ -6,6 +6,9 @@ export default {
    index() {
       return api.get<ISmena[]>(`${baseURL}`);
    },
+   showByOrganization(organization_id: number) {
+      return api.get<ISmena[]>(`${baseURL}/show/${organization_id}`);
+   },
    show(id: number) {
       return api.get<ISmena>(`${baseURL}/${id}`);
    },
