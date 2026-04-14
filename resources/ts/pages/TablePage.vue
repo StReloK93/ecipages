@@ -46,11 +46,7 @@ watch(
    (current) => executeTransport({ id: current }),
 );
 onMounted(async () => {
-   if (AuthStore.isAdmin) {
-      await executeTransport({ id: props.id });
-   } else {
-      await executeTransport({ id: AuthStore.user?.organization_id });
-   }
+   await executeTransport({ id: props.id });
 
    if (organization.value && organization.value.transport_types[0]) {
       currentTab.value = organization.value.transport_types[0].id!;
