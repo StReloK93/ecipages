@@ -8,7 +8,7 @@ export default {
    index() {
       return api.get<ITransportList[]>(`${baseURL}`);
    },
-   showByOrganization(organization_id: number) {
+   showByOrganization(organization_id: string) {
       return api.get<ITransportList[]>(`${baseURL}/show/${organization_id}`);
    },
    byTransportType(transport_type_id: number) {
@@ -20,8 +20,8 @@ export default {
    show(id: number) {
       return api.get<ITransportList>(`${baseURL}/${id}`);
    },
-   store(formData: ITransportList) {
-      return api.post<ITransportList>(`${baseURL}`, formData);
+   store(formData: ITransportList, organization_id: string) {
+      return api.post<ITransportList>(`${baseURL}`, { ...formData, organization_id });
    },
    update(id: number, formData: any) {
       return api.put<ITransportList>(`${baseURL}/${id}`, formData);
@@ -30,26 +30,27 @@ export default {
       return api.delete(`${baseURL}/${id}`);
    },
 
-   inputs: [
-      {
-         component: PrimeInputs["InputText"],
-         name: "name",
-         placeholder: "Nomi",
-         props: globalProps,
-         schema: yup.string().trim().required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-      {
-         component: PrimeInputs["Select"],
-         name: "transport_type_id",
-         placeholder: "Transport turi",
-         generateProps: async function () {
-            const { data } = await api.get("transport-types");
-            this.props = selectOption(data, "name");
+   inputs: (organization_id: number) =>
+      [
+         {
+            component: PrimeInputs["InputText"],
+            name: "name",
+            placeholder: "Nomi",
+            props: globalProps,
+            schema: yup.string().trim().required("Majburiy maydon!"),
+            class: ["mb-4"],
          },
-         schema: yup.string().optional(),
-      },
-   ] as InputConfig[],
+         {
+            component: PrimeInputs["Select"],
+            name: "transport_type_id",
+            placeholder: "Transport turi",
+            generateProps: async function () {
+               const { data } = await api.get("transport-types/show/" + organization_id);
+               this.props = selectOption(data, "name");
+            },
+            schema: yup.string().optional(),
+         },
+      ] as InputConfig[],
 
    columns: [
       {

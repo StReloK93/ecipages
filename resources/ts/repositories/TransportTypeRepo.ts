@@ -9,14 +9,14 @@ export default {
    index() {
       return api.get(`${baseURL}`);
    },
-   showByOrganization(organization_id: number) {
+   showByOrganization(organization_id: string) {
       return api.get(`${baseURL}/show/${organization_id}`);
    },
    show(id: number) {
       return api.get(`${baseURL}/${id}`);
    },
-   store(formData: ITransportType) {
-      return api.post(`${baseURL}`, formData);
+   store(formData: ITransportType, organization_id: string) {
+      return api.post(`${baseURL}`, { ...formData, organization_id });
    },
    update(id: number, formData: any) {
       return api.put(`${baseURL}/${id}`, formData);
@@ -25,7 +25,7 @@ export default {
       return api.delete(`${baseURL}/${id}`);
    },
 
-   inputs: [
+   inputs: (organization_id: string) => [
       {
          component: PrimeInputs["InputText"],
          name: "name",

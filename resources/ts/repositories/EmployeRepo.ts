@@ -8,14 +8,14 @@ export default {
    index() {
       return api.get<IEmployee[]>(`${baseURL}`);
    },
-   showByOrganization(organization_id: number) {
+   showByOrganization(organization_id: string) {
       return api.get<IEmployee[]>(`${baseURL}/show/${organization_id}`);
    },
    show(id: number) {
       return api.get<IEmployee>(`${baseURL}/${id}`);
    },
-   store(formData: IEmployee) {
-      return api.post<IEmployee>(`${baseURL}`, formData);
+   store(formData: IEmployee, organization_id: string) {
+      return api.post<IEmployee>(`${baseURL}`, { ...formData, organization_id });
    },
    update(id: number, formData: any) {
       return api.put<IEmployee>(`${baseURL}/${id}`, formData);
@@ -24,43 +24,44 @@ export default {
       return api.delete(`${baseURL}/${id}`);
    },
 
-   inputs: [
-      {
-         component: PrimeInputs["InputText"],
-         name: "name",
-         placeholder: "F.I.Sh",
-         props: globalProps,
-         schema: yup.string().trim().required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-      {
-         component: PrimeInputs["InputNumber"],
-         name: "razryad",
-         placeholder: "Razryad",
-         props: globalProps,
-         schema: yup.string().trim().required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-      {
-         component: PrimeInputs["InputText"],
-         name: "table",
-         placeholder: "Tabel raqami",
-         props: globalProps,
-         schema: yup.string().trim().required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-      {
-         component: PrimeInputs["MultiSelect"],
-         name: "transport_lists",
-         placeholder: "Qurilma modeli",
-         generateProps: async function () {
-            const { data } = await api.get("transport-lists");
-            this.props = selectOption(data, "name");
+   inputs: (organization_id: string) =>
+      [
+         {
+            component: PrimeInputs["InputText"],
+            name: "name",
+            placeholder: "F.I.Sh",
+            props: globalProps,
+            schema: yup.string().trim().required("Majburiy maydon!"),
+            class: ["mb-4"],
          },
-         schema: yup.array().of(yup.number()).required("Majburiy maydon!"),
-         class: ["mb-4"],
-      },
-   ] as InputConfig[],
+         {
+            component: PrimeInputs["InputNumber"],
+            name: "razryad",
+            placeholder: "Razryad",
+            props: globalProps,
+            schema: yup.string().trim().required("Majburiy maydon!"),
+            class: ["mb-4"],
+         },
+         {
+            component: PrimeInputs["InputText"],
+            name: "table",
+            placeholder: "Tabel raqami",
+            props: globalProps,
+            schema: yup.string().trim().required("Majburiy maydon!"),
+            class: ["mb-4"],
+         },
+         {
+            component: PrimeInputs["MultiSelect"],
+            name: "transport_lists",
+            placeholder: "Qurilma modeli",
+            generateProps: async function () {
+               const { data } = await api.get("transport-lists/show/" + organization_id);
+               this.props = selectOption(data, "name");
+            },
+            schema: yup.array().of(yup.number()).required("Majburiy maydon!"),
+            class: ["mb-4"],
+         },
+      ] as InputConfig[],
 
    columns: [
       {

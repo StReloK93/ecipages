@@ -1,7 +1,7 @@
 <template>
    <div>
-      <Drawer header="Bo'linma qo'shish" :show-close-icon="false" v-model:visible="visibleRight" position="right">
-         <BaseForm :submit="submit" @close="visibleRight = false" :input-configs="props.entityRepo.inputs" />
+      <Drawer header="Qo'shish" :show-close-icon="false" v-model:visible="visibleRight" position="right">
+         <BaseForm :submit="submit" @close="visibleRight = false" :input-configs="inputs" />
       </Drawer>
       <CrudTable
          v-if="entity && isLoading == false"
@@ -30,24 +30,25 @@ import { useFetchDecorator } from "@/modules/useFetch";
 import { deleteConfirm } from "@/modules/useConfirm";
 import { useConfirm } from "primevue/useconfirm";
 import { useRoute } from "vue-router";
+import { AxiosResponse } from "axios";
 const confirm = useConfirm();
-
-const route = useRoute();
-
-interface Repository {
-   index: () => Promise<any>;
-   store: (values: any) => Promise<any>;
-   update: (id: number, values: any) => Promise<any>;
-   destroy: (id: number) => Promise<any>;
-   show: (id: number) => Promise<any>;
-   showByOrganization: (organization_id: number) => Promise<any>;
-   inputs: InputConfig[];
-   columns: { field: string; header: string }[];
-}
-
 const props = defineProps<{
    entityRepo: Repository;
 }>();
+
+const route = useRoute();
+const inputs = props.entityRepo.inputs(route.params.organization_id as string);
+
+interface Repository {
+   index: () => Promise<any>;
+   store: (values: any, organization_id: string) => Promise<AxiosResponse<any, any>>;
+   update: (id: number, values: any) => Promise<any>;
+   destroy: (id: number) => Promise<any>;
+   show: (id: number) => Promise<any>;
+   showByOrganization: (organization_id: string) => Promise<any>;
+   inputs: (organization_id: string) => InputConfig[];
+   columns: { field: string; header: string }[];
+}
 
 const visibleRight = ref(false);
 var submit: (values: any) => Promise<void>;
@@ -56,13 +57,15 @@ const { data: entity, execute, isLoading } = useFetchDecorator<any[]>(props.enti
 
 async function openCreateForm() {
    submit = async (values) => {
-      await props.entityRepo.store(values);
+      await props.entityRepo.store(values, route.params.organization_id as string);
       await execute(route.params.organization_id);
       visibleRight.value = false;
    };
 
    await Promise.all(
-      props.entityRepo.inputs.map(async (input) => {
+      inputs.map(async (input) => {
+         console.log(input);
+
          if (input.generateProps) await input.generateProps();
          input.value = undefined;
          return input;
@@ -102,7 +105,7 @@ async function openUpdateForm(row: any) {
    const { data: parameter } = await props.entityRepo.show(row.id!);
 
    await Promise.all(
-      props.entityRepo.inputs.map(async (input) => {
+      inputs.map(async (input) => {
          if (input.generateProps) await input.generateProps();
          input.value = parameter ? parameter[input.name] : undefined;
          return input;

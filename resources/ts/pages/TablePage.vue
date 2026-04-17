@@ -29,11 +29,8 @@ import TabButton from "../components/TabButton.vue";
 import { onMounted, ref, Ref, watch } from "vue";
 import { useFetchDecorator } from "@/modules/useFetch";
 import { IOrganization } from "@/Interfaces";
-import { useUserStore } from "@/stories/UserStore";
 const props = defineProps(["id"]);
 const currentTab: Ref<number | null> = ref(null);
-
-const AuthStore = useUserStore();
 
 const {
    execute: executeTransport,

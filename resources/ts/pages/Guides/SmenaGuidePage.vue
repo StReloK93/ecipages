@@ -76,7 +76,7 @@ const organization_id = route.params.organization_id as string;
 const { data: smenalar, execute } = useFetchDecorator<ISmena[]>(SmenaRepo.showByOrganization);
 
 async function onRowCreate(formData: ISmena) {
-   const { data } = await SmenaRepo.store(formData);
+   const { data } = await SmenaRepo.store(formData, organization_id);
 
    smenalar.value?.push(data);
    createDialog.value = false;

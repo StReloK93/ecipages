@@ -21,10 +21,6 @@ class SmenaController extends BaseCrudController
 
     public function store(Request $request)
     {
-        $request->merge([
-            'organization_id' => $request->user()->organization_id
-        ]);
-
         return Smena::create($request->all());
     }
 }
