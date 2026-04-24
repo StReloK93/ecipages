@@ -84,4 +84,6 @@ export default {
          header: "Smena boshlanish kuni",
       },
    ],
+
+   filterFields: ["garage_number", "transport_list.name"],
 };

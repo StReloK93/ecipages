@@ -62,4 +62,5 @@ export default {
          header: "Transport turi",
       },
    ],
+   filterFields: ["name"],
 };

@@ -6,6 +6,7 @@
       <CrudTable
          v-if="entity && isLoading == false"
          :columns="props.entityRepo.columns"
+         :filter-fields="props.entityRepo.filterFields"
          :data="entity!"
          @update="openUpdateForm"
          @delete="onDelete"
@@ -48,6 +49,7 @@ interface Repository {
    showByOrganization: (organization_id: string) => Promise<any>;
    inputs: (organization_id: string) => InputConfig[];
    columns: { field: string; header: string }[];
+   filterFields: string[];
 }
 
 const visibleRight = ref(false);

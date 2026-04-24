@@ -42,4 +42,5 @@ export default {
          header: "Nomi",
       },
    ],
+   filterFields: ["name"],
 };

@@ -47,7 +47,7 @@
                            v-for="(group, index) in lavozim[change_id]"
                            @remove="removeUserFromBox(group.id, lavozim[change_id], index)"
                            :key="group"
-                           :label="group.employe.name"
+                           :label="group?.employe?.name"
                            class="text-xs! animate-pop-in"
                            :removable="AuthStore.canChange(+$route.params.id)"
                         />

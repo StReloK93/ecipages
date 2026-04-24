@@ -82,4 +82,5 @@ export default {
          render: (row: any) => row.transport_lists.map((t: any) => t.transport_list.name),
       },
    ],
+   filterFields: ["name", "table"],
 };
