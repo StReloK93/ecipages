@@ -38,7 +38,16 @@ class OrganizationController extends BaseCrudController
         $user = $request->user();
         $date = Carbon::parse($request->date)->timezone('Asia/Tashkent');
 
-        return Organization::whereIn('organizations.id', $user->organization_roles()->pluck('organization_id'))
+        // 1-25 kun oralig‘ida oldingi oyning success'i ishlaydi
+        // 26-kundan boshlab shu oyniki ishlaydi
+        $successDate = $date->day <= 25
+            ? $date->copy()->subMonth()
+            : $date->copy();
+
+        return Organization::whereIn(
+            'organizations.id',
+            $user->organization_roles()->pluck('organization_id')
+        )
             ->join('user_organization_roles as uor', function ($join) use ($user) {
                 $join->on('uor.organization_id', '=', 'organizations.id')
                     ->where('uor.user_id', $user->id);
@@ -50,12 +59,11 @@ class OrganizationController extends BaseCrudController
             ])
             ->with([
                 'success' => fn($q) => $q
-                    ->whereMonth('month', $date->month)
-                    ->whereYear('month', $date->year)
+                    ->whereMonth('month', $successDate->month)
+                    ->whereYear('month', $successDate->year)
             ])
             ->get();
     }
-
 
     public function successCurrentMonth(Request $request)
     {
