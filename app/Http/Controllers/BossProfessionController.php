@@ -21,14 +21,15 @@ class BossProfessionController extends Controller
     {
         $user = $request->user();
         $date = Carbon::parse($request->date)->timezone('Asia/Tashkent');
-        $month = $date->month;
-        $year = $date->year;
+
+        $successDate = $date->day <= 25
+            ? $date->copy()->subMonth()
+            : $date->copy();
 
         return BossProfession::with([
-            'success' => function ($query) use ($month, $year) {
-                $query->whereMonth('month', $month)
-                    ->whereYear('month', $year);
-            }
+            'success' => fn($q) => $q
+                ->whereMonth('month', $successDate->month)
+                ->whereYear('month', $successDate->year)
         ])
             ->leftJoin('user_success_roles as uor', function ($join) use ($user) {
                 $join->on('uor.boss_profession_id', '=', 'boss_professions.id')
