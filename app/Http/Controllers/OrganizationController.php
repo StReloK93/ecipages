@@ -6,7 +6,8 @@ use App\Models\Organization;
 use App\Models\Success;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Models\UserOrganizationRole;
+use App\Services\Helpers;
+
 class OrganizationController extends BaseCrudController
 {
     protected string $model = Organization::class;
@@ -33,6 +34,10 @@ class OrganizationController extends BaseCrudController
         return $organization;
     }
 
+
+
+
+
     public function aviableOrganizations(Request $request)
     {
         $user = $request->user();
@@ -40,10 +45,7 @@ class OrganizationController extends BaseCrudController
 
         // 1-25 kun oralig‘ida oldingi oyning success'i ishlaydi
         // 26-kundan boshlab shu oyniki ishlaydi
-        $successDate = $date->day <= 25
-            ? $date->copy()->subMonth()
-            : $date->copy();
-
+        [$from, $to] = Helpers::resolveSuccessRange($date);
         return Organization::whereIn(
             'organizations.id',
             $user->organization_roles()->pluck('organization_id')
@@ -58,9 +60,7 @@ class OrganizationController extends BaseCrudController
                 'uor.can_change',
             ])
             ->with([
-                'success' => fn($q) => $q
-                    ->whereMonth('month', $successDate->month)
-                    ->whereYear('month', $successDate->year)
+                'success' => fn($q) => $q->whereBetween('month', [$from, $to])
             ])
             ->get();
     }
@@ -77,10 +77,10 @@ class OrganizationController extends BaseCrudController
             abort(403, 'Sizda bu amalni bajarish uchun ruxsat yo\'q');
         }
         $date = Carbon::parse($request->date)->timezone('Asia/Tashkent');
+        [$from, $to] = Helpers::resolveSuccessRange($date);
 
         $current = Success::where('organization_id', $request->organization_id)
-            ->whereMonth('month', $date->month)
-            ->whereYear('month', $date->year)
+            ->whereBetween('month', [$from, $to])
             ->first();
 
         if ($current) {

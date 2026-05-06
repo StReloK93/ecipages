@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\BossProfession;
 use App\Models\BossSuccess;
 use Carbon\Carbon;
+use App\Services\Helpers;
 use DB;
 class BossProfessionController extends Controller
 {
@@ -22,14 +23,10 @@ class BossProfessionController extends Controller
         $user = $request->user();
         $date = Carbon::parse($request->date)->timezone('Asia/Tashkent');
 
-        $successDate = $date->day <= 25
-            ? $date->copy()->subMonth()
-            : $date->copy();
+        [$from, $to] = Helpers::resolveSuccessRange($date);
 
         return BossProfession::with([
-            'success' => fn($q) => $q
-                ->whereMonth('month', $successDate->month)
-                ->whereYear('month', $successDate->year)
+            'success' => fn($q) => $q->whereBetween('month', [$from, $to])
         ])
             ->leftJoin('user_success_roles as uor', function ($join) use ($user) {
                 $join->on('uor.boss_profession_id', '=', 'boss_professions.id')
@@ -42,14 +39,13 @@ class BossProfessionController extends Controller
             ->get();
     }
 
-
     public function successCurrentMonth(Request $request)
     {
         $date = Carbon::parse($request->date)->timezone('Asia/Tashkent');
+        [$from, $to] = Helpers::resolveSuccessRange($date);
 
         $current = BossSuccess::where('boss_profession_id', $request->boss_profession_id)
-            ->whereMonth('month', $date->month)
-            ->whereYear('month', $date->year)
+            ->whereBetween('month', [$from, $to])
             ->first();
 
         if ($current) {

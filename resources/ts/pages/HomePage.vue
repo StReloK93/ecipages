@@ -47,9 +47,13 @@
             <main class="flex gap-3">
                <Transition mode="out-in">
                   <span v-if="organization.success.length === 0" class="flex gap-2 text-surface-500"> Yopilmagan </span>
-                  <div v-else class="flex gap-2 text-surface-600">
+                  <div
+                     v-else
+                     class="flex gap-2 text-surface-600"
+                     :title="moment(organization.success[0].created_at).format('DD.MM.YYYY HH:mm')"
+                  >
                      <span> {{ organization.success[0].user.name }} </span>
-                     <span> {{ moment(organization.success[0].created_at).format("DD.MM.YYYY HH:mm") }} </span>
+                     <span> {{ moment(organization.success[0].month).format("DD.MM.YYYY ") }} </span>
                   </div>
                </Transition>
 
@@ -83,9 +87,13 @@
                <i v-else></i>
                <Transition mode="out-in">
                   <span v-if="profession.success.length === 0" class="text-gray-500"> Yopilmagan </span>
-                  <div v-else class="flex gap-2 text-gray-600">
+                  <div
+                     v-else
+                     class="flex gap-2 text-gray-600"
+                     :title="moment(profession.success[0].created_at).format('DD.MM.YYYY HH:mm')"
+                  >
                      <span> {{ profession.success[0].user.name }} </span>
-                     <span> {{ moment(profession.success[0].created_at).format("DD.MM.YYYY HH:mm") }} </span>
+                     <span> {{ moment(profession.success[0].month).format("DD.MM.YYYY") }} </span>
                   </div>
                </Transition>
             </main>

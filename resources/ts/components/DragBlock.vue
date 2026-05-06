@@ -4,10 +4,10 @@
          {{ transport.garage_number }} - <span class="text-base"> {{ list.name }} </span>
       </h3>
       <div class="flex gap-5">
-         <div class="w-1/4 rounded-xl h-fit">
+         <div v-if="AuthStore.canChange(+$route.params.id)" class="w-1/4 rounded-xl h-fit">
             <DragBlockUser :groupLavozims="groupLavozims!" :list="props.list" @dragstart="onDragStart" />
          </div>
-         <div class="w-3/4 grid grid-cols-1 gap-4 content-start">
+         <div class="grow grid grid-cols-1 gap-4 content-start">
             <Skeleton
                v-if="groupLavozims == null"
                border-radius="12px"
